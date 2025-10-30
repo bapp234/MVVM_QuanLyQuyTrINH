@@ -54,8 +54,8 @@
                     <TextBlock Text="Đăng nhập" Style="{StaticResource tittleText}" 
                                Foreground="#3AD19B" Margin="0,0,0,20" HorizontalAlignment="Center"/>
 
-                    <TextBlock Text="Email" FontWeight="Bold" Margin="0,0,0,5"/>
-                    <TextBox x:Name="txtEmail" Height="35" Padding="10,10,5,5" BorderBrush="#3AD19B" BorderThickness="1" />
+                    <TextBlock Text="Tên đăng nhập" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <TextBox x:Name="txtUserName" Height="35" Padding="10,10,5,5" BorderBrush="#3AD19B" BorderThickness="1" />
 
                     <TextBlock Text="Mật khẩu" FontWeight="Bold" Margin="0,15,0,5"/>
 

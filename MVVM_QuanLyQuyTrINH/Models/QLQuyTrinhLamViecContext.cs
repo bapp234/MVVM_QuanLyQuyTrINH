@@ -29,6 +29,8 @@ namespace MVVM_QuanLyQuyTrINH.Models
         public virtual DbSet<ThongKeCv> ThongKeCvs { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<VaiTro> VaiTros { get; set; } = null!;
+        public DbSet<YeuCauDatLaiMatKhau> YeuCauDatLaiMatKhau { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

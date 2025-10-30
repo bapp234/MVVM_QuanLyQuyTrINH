@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using MVVM_QuanLyQuyTrINH.Services;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,29 +15,37 @@ namespace MVVM_QuanLyQuyTrINH.Views
 {
     public partial class LoginWindow : Window
     {
-        private bool isPasswordVisible = false;
+        private readonly AuthService authService = new AuthService();
         public LoginWindow()
         {
             InitializeComponent();
         }
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Application.Current.Shutdown();
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            string email = txtEmail.Text;
-            string password = isPasswordVisible ? txtVisiblePassword.Text : pwdBox.Password;
 
-            if (email == "admin@gmail.com" && password == "123")
+            string userName = txtUserName.Text.Trim();
+            string password = pwdBox.Password;
+
+            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
             {
-                MainAppWindow mainAppWindow = new MainAppWindow();
-                mainAppWindow.Show();
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            var user = authService.Login(userName, password);
+            if (user != null)
+            {
+
+                new MainAppWindow().Show();
+                this.Close();
             }
             else
             {
-                MessageBox.Show("Sai email hoặc mật khẩu!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void ForgotPassword_Click(object sender, RoutedEventArgs e)
@@ -45,23 +54,17 @@ namespace MVVM_QuanLyQuyTrINH.Views
         }
         private void TogglePassword_Click(object sender, RoutedEventArgs e)
         {
-            if (isPasswordVisible)
+            if (txtVisiblePassword.Visibility == Visibility.Collapsed)
             {
-                // Ẩn mật khẩu
-                pwdBox.Password = txtVisiblePassword.Text;
-                txtVisiblePassword.Visibility = Visibility.Collapsed;
-                pwdBox.Visibility = Visibility.Visible;
-                btnTogglePassword.Content = "👁";
-                isPasswordVisible = false;
-            }
-            else
-            {
-                // Hiện mật khẩu
                 txtVisiblePassword.Text = pwdBox.Password;
                 txtVisiblePassword.Visibility = Visibility.Visible;
                 pwdBox.Visibility = Visibility.Collapsed;
-                btnTogglePassword.Content = "🚫";
-                isPasswordVisible = true;
+            }
+            else
+            {
+                pwdBox.Password = txtVisiblePassword.Text;
+                pwdBox.Visibility = Visibility.Visible;
+                txtVisiblePassword.Visibility = Visibility.Collapsed;
             }
         }
     }

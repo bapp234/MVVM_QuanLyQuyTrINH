@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using BCrypt.Net;
+
 
 namespace MVVM_QuanLyQuyTrINH.Models
 {
@@ -16,5 +18,10 @@ namespace MVVM_QuanLyQuyTrINH.Models
         public virtual Admin? Admin { get; set; }
         public virtual NhanVien? NhanVien { get; set; }
         public virtual QuanLy? QuanLy { get; set; }
+
+        public void SetPassword(string password)
+        {
+            MatKhau = BCrypt.Net.BCrypt.HashPassword(password);
+        }
     }
 }

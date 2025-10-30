@@ -23,7 +23,7 @@ namespace MVVM_QuanLyQuyTrINH.Views
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
             LoginWindow login = new LoginWindow();
-            if (MessageBoxResult.Yes == MessageBox.Show("Bạn có muốn đăng xuất không?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question))
+            if (MessageBoxResult.Yes == MessageBox.Show("Bạn có muốn đăng xuất không ?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question))
             {
                 login.Show();
                 this.Close();
