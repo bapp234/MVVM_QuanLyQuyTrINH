@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MVVM_QuanLyQuyTrINH"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -35,6 +36,10 @@
                 </Canvas>
 
                 <StackPanel VerticalAlignment="Center" Margin="20">
+                    <Image gif:ImageBehavior.AnimatedSource="C:\Users\admin\Desktop\TTCN\code\MVVM_QuanLyQuyTrINH\Images\meme-cat-cat-meme.gif"
+                               Stretch="Uniform"
+                               Width="120"
+                               Height="120"/>
                     <TextBlock Text="Chào mừng trở lại!" Style="{StaticResource tittleText}" Foreground="White" Margin="0,0,0,10"/>
                     <TextBlock Text="Vui lòng đăng nhập để tiếp tục" Style="{StaticResource normalText}" Foreground="White"/>
                 </StackPanel>
