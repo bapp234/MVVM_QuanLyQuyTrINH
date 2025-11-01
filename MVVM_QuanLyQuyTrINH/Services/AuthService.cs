@@ -17,9 +17,9 @@ namespace MVVM_QuanLyQuyTrINH.Services
         {
             dB_User = new QLQuyTrinhLamViecContext();
         }
-        public User Login(string username, string password)
+        public async Task<User> Login(string username, string password)
         {
-            var user = dB_User.Users.SingleOrDefault(u => u.TenDangNhap == username);
+            var user = await dB_User.Users.AsNoTracking().SingleOrDefaultAsync(u => u.TenDangNhap == username);
             if (user != null /*&& BCrypt.Net.BCrypt.Verify(password, user.MatKhau)*/)
             {
                 return user;

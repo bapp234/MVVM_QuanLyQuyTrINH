@@ -25,7 +25,7 @@ namespace MVVM_QuanLyQuyTrINH.Views
             Application.Current.Shutdown();
         }
 
-        private void Login_Click(object sender, RoutedEventArgs e)
+        private async void Login_Click(object sender, RoutedEventArgs e)
         {
 
             string userName = txtUserName.Text.Trim();
@@ -36,7 +36,7 @@ namespace MVVM_QuanLyQuyTrINH.Views
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            var user = authService.Login(userName, password);
+            var user = await authService.Login(userName, password);
             if (user != null)
             {
 
