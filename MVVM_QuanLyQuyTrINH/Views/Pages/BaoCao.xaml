@@ -3,38 +3,95 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:MVVM_QuanLyQuyTrINH.Views.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1000"
-      Title="Báo cáo">
+      Title="Báo Cáo">
 
-    <Grid Background="White">
+    <Grid Background="#F8FAFB">
         <!-- Tiêu đề -->
-        <TextBlock Text="Báo cáo"
-                   Foreground="#3AA0AD"
-                   FontSize="22"
+        <TextBlock Text="Tổng quan hệ thống làm việc"
+                   FontSize="24"
                    FontWeight="SemiBold"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Top"
-                   Margin="0,50,0,0"/>
+                   Foreground="#2E8B8B"
+                   Margin="30,30,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"/>
 
-        <!-- Hình minh họa hoặc biểu tượng -->
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Ellipse Width="150" Height="150" Fill="#E6F6F7"/>
-            <TextBlock Text="🏢"
-                       FontSize="60"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Margin="0,-110,0,0"/>
+        <!-- Bộ lọc và thời gian -->
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,30,30,0"
+                    VerticalAlignment="Top">
+            <ComboBox Width="150" Height="30" SelectedIndex="0">
+                <ComboBoxItem Content="7 ngày qua"/>
+                <ComboBoxItem Content="30 ngày qua"/>
+                <ComboBoxItem Content="3 tháng qua"/>
+            </ComboBox>
+            <Button Content="📄 Xuất báo cáo" 
+                    Background="#2E8B8B"
+                    Foreground="White"
+                    Padding="10,5"
+                    BorderThickness="0"/>
         </StackPanel>
 
-        <!-- Gợi ý chức năng -->
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40">
-            <TextBlock Text="→ Chọn mục ở menu bên trái để bắt đầu làm việc"
-                       FontSize="16"
-                       Foreground="Gray"
-                       FontStyle="Italic"
-                       TextAlignment="Center"/>
-        </StackPanel>
+        <!-- Thống kê tổng hợp -->
+        <UniformGrid Rows="1" Columns="3" Margin="30,100,30,0" VerticalAlignment="Top" Height="120">
+            <Border Background="White" CornerRadius="10" Padding="15" Margin="10" >
+                <StackPanel>
+                    <TextBlock Text="Quy trình hoàn thành" FontWeight="Bold" FontSize="14" Foreground="Gray"/>
+                    <TextBlock Text="120 quy trình" FontSize="22" FontWeight="SemiBold" Foreground="#2E8B8B" Margin="0,5,0,0"/>
+                    <TextBlock Text="+8% so với tháng trước" Foreground="Green" FontSize="12"/>
+                </StackPanel>
+            </Border>
+            <Border Background="White" CornerRadius="10" Padding="15" Margin="10">
+                <StackPanel>
+                    <TextBlock Text="Công việc đã hoàn thành" FontWeight="Bold" FontSize="14" Foreground="Gray"/>
+                    <TextBlock Text="456 công việc" FontSize="22" FontWeight="SemiBold" Foreground="#2E8B8B" Margin="0,5,0,0"/>
+                    <TextBlock Text="+12% so với tháng trước" Foreground="Green" FontSize="12"/>
+                </StackPanel>
+            </Border>
+            <Border Background="White" CornerRadius="10" Padding="15" Margin="10">
+                <StackPanel>
+                    <TextBlock Text="Hiệu suất trung bình" FontWeight="Bold" FontSize="14" Foreground="Gray"/>
+                    <TextBlock Text="89%" FontSize="22" FontWeight="SemiBold" Foreground="#2E8B8B" Margin="0,5,0,0"/>
+                    <TextBlock Text="-3% so với tháng trước" Foreground="Red" FontSize="12"/>
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <!-- Biểu đồ đơn giản -->
+        <Border Background="White" CornerRadius="10" Margin="30,250,530,50" Padding="20">
+            <StackPanel>
+                <TextBlock Text="Thống kê khu vực" FontSize="16" FontWeight="SemiBold" Foreground="#333" Margin="0,0,0,10"/>
+                <Grid>
+                    <Ellipse Width="150" Height="150" Fill="#E6F6F7"/>
+                    <TextBlock Text="120 Quy trình" 
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="14" 
+                               FontWeight="SemiBold"/>
+                </Grid>
+                <StackPanel Margin="0,10,0,0">
+                    <TextBlock Text="• Khu vực Trung tâm - 55%" Foreground="#2E8B8B" Margin="0,3,0,0"/>
+                    <TextBlock Text="• Khu vực Bắc - 25%" Foreground="#F5A623" Margin="0,3,0,0"/>
+                    <TextBlock Text="• Khu vực Nam - 20%" Foreground="#EB5757" Margin="0,3,0,0"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Lịch sử hoạt động -->
+        <Border Background="White" CornerRadius="10" Margin="470,250,30,50" Padding="20">
+            <StackPanel>
+                <TextBlock Text="Lịch sử quy trình" FontSize="16" FontWeight="SemiBold" Foreground="#333" Margin="0,0,0,10"/>
+                <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Mã quy trình" Binding="{Binding MaQuyTrinh}" Width="*"/>
+                        <DataGridTextColumn Header="Trạng thái" Binding="{Binding TrangThai}" Width="*"/>
+                        <DataGridTextColumn Header="Ngày thực hiện" Binding="{Binding Ngay}" Width="*"/>
+                        <DataGridTextColumn Header="Người phụ trách" Binding="{Binding NguoiPhuTrach}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>

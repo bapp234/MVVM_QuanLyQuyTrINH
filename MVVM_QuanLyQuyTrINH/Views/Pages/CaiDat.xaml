@@ -3,38 +3,82 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:MVVM_QuanLyQuyTrINH.Views.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1000"
       Title="Caidat">
 
     <Grid Background="White">
         <!-- Tiêu đề -->
-        <TextBlock Text="Cài đặt"
+        <TextBlock Text="Cài đặt chung"
                    Foreground="#3AA0AD"
                    FontSize="22"
                    FontWeight="SemiBold"
-                   HorizontalAlignment="Center"
+                   HorizontalAlignment="Left"
                    VerticalAlignment="Top"
-                   Margin="0,50,0,0"/>
+                   Margin="77,53,0,0"/>
 
-        <!-- Hình minh họa hoặc biểu tượng -->
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Ellipse Width="150" Height="150" Fill="#E6F6F7"/>
-            <TextBlock Text="🏢"
-                       FontSize="60"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Margin="0,-110,0,0"/>
-        </StackPanel>
+        <!-- Nội dung -->
+        <Grid Margin="50,100,50,50">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <!-- Gợi ý chức năng -->
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40">
-            <TextBlock Text="→ Chọn mục ở menu bên trái để bắt đầu làm việc"
-                       FontSize="16"
-                       Foreground="Gray"
-                       FontStyle="Italic"
-                       TextAlignment="Center"/>
-        </StackPanel>
+            <!-- CỘT TRÁI: Danh mục (có viền + bóng đổ) -->
+            <Border Grid.Column="0"
+                    Background="#E6F6F7"
+                    CornerRadius="15"
+                    BorderBrush="#3AA0AD"
+                    BorderThickness="1.5"
+                    Margin="0,0,20,0">
+                <!-- Bóng đổ nhẹ -->
+                <Border.Effect>
+                    <DropShadowEffect Color="#CCCCCC" ShadowDepth="2" BlurRadius="8" Opacity="0.3"/>
+                </Border.Effect>
+
+                <StackPanel VerticalAlignment="Stretch" Margin="5">
+                    <Button Content="Thông báo"
+                            Style="{StaticResource buttonStyleKey}"
+                            Padding="15,12" Margin="10,8"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            FontWeight="Medium"/>
+
+                    <Button Content="Tài khoản"
+                            Style="{StaticResource buttonStyleKey}"
+                            Padding="15,12" Margin="10,8"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            FontWeight="Medium"/>
+
+                    <Button Content="Đổi mật khẩu"
+                            Style="{StaticResource buttonStyleKey}"
+                            Padding="15,12" Margin="10,8"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            FontWeight="Medium"/>
+                </StackPanel>
+            </Border>
+
+            <!-- CỘT PHẢI: Khu vực hiển thị -->
+            <Border Grid.Column="1"
+                    Background="White"
+                    CornerRadius="15"
+                    Padding="30"
+                    BorderBrush="#D0D0D0"
+                    BorderThickness="1">
+                <Border.Effect>
+                    <DropShadowEffect Color="#CCCCCC" ShadowDepth="2" BlurRadius="8" Opacity="0.3"/>
+                </Border.Effect>
+
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="Chọn mục bên trái để thay đổi cài đặt"
+                               FontSize="16"
+                               FontStyle="Italic"
+                               Foreground="Gray"
+                               TextAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Page>
