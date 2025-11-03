@@ -39,7 +39,6 @@ namespace MVVM_QuanLyQuyTrINH.Views
             var user = authService.Login(userName, password);
             if (user != null)
             {
-
                 new MainAppWindow().Show();
                 this.Close();
             }
@@ -50,7 +49,9 @@ namespace MVVM_QuanLyQuyTrINH.Views
         }
         private void ForgotPassword_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Vui lòng liên hệ quản trị viên để đặt lại mật khẩu.", "Quên mật khẩu", MessageBoxButton.OK, MessageBoxImage.Information);
+            ForgotPassword fp = new ForgotPassword();
+            fp.Show();
+            this.Close();
         }
         private void TogglePassword_Click(object sender, RoutedEventArgs e)
         {
