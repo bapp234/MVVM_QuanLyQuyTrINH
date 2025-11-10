@@ -1,7 +1,8 @@
-﻿using System;
+﻿using MVVM_QuanLyQuyTrINH.Models.Project;
+using System;
 using System.Collections.Generic;
 
-namespace MVVM_QuanLyQuyTrINH.Models
+namespace MVVM_QuanLyQuyTrINH.Models.Account
 {
     public partial class NhanVien
     {

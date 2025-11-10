@@ -1,6 +1,7 @@
 ﻿using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
-using MVVM_QuanLyQuyTrINH.Models;
+using MVVM_QuanLyQuyTrINH.Models.Account;
+using MVVM_QuanLyQuyTrINH.Models.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;

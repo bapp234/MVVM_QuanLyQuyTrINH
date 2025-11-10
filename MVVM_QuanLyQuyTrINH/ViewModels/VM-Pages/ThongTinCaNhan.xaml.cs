@@ -16,13 +16,14 @@ using System.Windows.Shapes;
 namespace MVVM_QuanLyQuyTrINH.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for BaoCao.xaml
+    /// Interaction logic for ThongTinCaNhan.xaml
     /// </summary>
-    public partial class BaoCao : Page
+    public partial class ThongTinCaNhan : Page
     {
-        public BaoCao()
+        public ThongTinCaNhan()
         {
             InitializeComponent();
         }
+        
     }
 }

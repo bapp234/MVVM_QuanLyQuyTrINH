@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using BCrypt.Net;
+using MVVM_QuanLyQuyTrINH.Models.Project;
 
 
-namespace MVVM_QuanLyQuyTrINH.Models
+namespace MVVM_QuanLyQuyTrINH.Models.Account
 {
     public partial class User
     {

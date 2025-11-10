@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVVM_QuanLyQuyTrINH.Models
+namespace MVVM_QuanLyQuyTrINH.Models.Account
 {
     [Table("YeuCauDatLaiMatKhau")]
     public class YeuCauDatLaiMatKhau

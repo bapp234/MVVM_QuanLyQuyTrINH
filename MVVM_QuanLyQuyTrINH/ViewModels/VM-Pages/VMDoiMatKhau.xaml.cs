@@ -16,13 +16,17 @@ using System.Windows.Shapes;
 namespace MVVM_QuanLyQuyTrINH.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for QuyTrinh.xaml
+    /// Interaction logic for DoiMatKhau.xaml
     /// </summary>
-    public partial class QuyTrinh : Page
+    public partial class DoiMatKhau : Page
     {
-        public QuyTrinh()
+        public DoiMatKhau()
         {
             InitializeComponent();
+        }
+        private void ChangePassword_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Chưa có làm gì hết hụ hụ");
         }
     }
 }

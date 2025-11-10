@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MVVM_QuanLyQuyTrINH.Views.Pages
+namespace MVVM_QuanLyQuyTrINH.Views.CRUD
 {
     /// <summary>
-    /// Interaction logic for CaiDat.xaml
+    /// Interaction logic for SuaNhanVien.xaml
     /// </summary>
-    public partial class CaiDat : Page
+    public partial class SuaNhanVien : Window
     {
-        public CaiDat()
+        public SuaNhanVien()
         {
             InitializeComponent();
         }

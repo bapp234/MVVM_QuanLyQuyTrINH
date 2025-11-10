@@ -1,7 +1,8 @@
-﻿using System;
+﻿using MVVM_QuanLyQuyTrINH.Models.Account;
+using System;
 using System.Collections.Generic;
 
-namespace MVVM_QuanLyQuyTrINH.Models
+namespace MVVM_QuanLyQuyTrINH.Models.Project
 {
     public partial class DuAn
     {

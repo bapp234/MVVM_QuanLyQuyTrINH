@@ -16,13 +16,24 @@ using System.Windows.Shapes;
 namespace MVVM_QuanLyQuyTrINH.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for QuanLy.xaml
+    /// Interaction logic for CaiDat.xaml
     /// </summary>
-    public partial class QuanLy : Page
+    public partial class CaiDat : Page
     {
-        public QuanLy()
+        public CaiDat()
         {
             InitializeComponent();
+            MainFrame.Navigate(new ThongTinCaNhan());
+        }
+
+        private void btnThongTinCaNhan_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new ThongTinCaNhan());
+        }
+
+        private void btnDoiMatKhau_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new DoiMatKhau());
         }
     }
 }

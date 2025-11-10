@@ -5,80 +5,57 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1000"
-      Title="Caidat">
+      Title="CaiDat">
 
     <Grid Background="White">
-        <!-- Tiêu đề -->
-        <TextBlock Text="Cài đặt chung"
-                   Foreground="#3AA0AD"
-                   FontSize="22"
-                   FontWeight="SemiBold"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Top"
-                   Margin="77,53,0,0"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <!-- Menu trái -->
+            <ColumnDefinition Width="*"/>
+            <!-- Khung nội dung -->
+        </Grid.ColumnDefinitions>
 
-        <!-- Nội dung -->
-        <Grid Margin="50,100,50,50">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <!-- Menu trái -->
+        <Border Background="#E6F6F7" BorderBrush="#3AA0AD" BorderThickness="0,0,1,0">
+            <StackPanel VerticalAlignment="Top" Margin="0,40,0,0">
+                <TextBlock Text="⚙️ Cài đặt hệ thống"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#3AA0AD"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20"/>
 
-            <!-- CỘT TRÁI: Danh mục (có viền + bóng đổ) -->
-            <Border Grid.Column="0"
-                    Background="#E6F6F7"
-                    CornerRadius="15"
-                    BorderBrush="#3AA0AD"
-                    BorderThickness="1.5"
-                    Margin="0,0,20,0">
-                <!-- Bóng đổ nhẹ -->
-                <Border.Effect>
-                    <DropShadowEffect Color="#CCCCCC" ShadowDepth="2" BlurRadius="8" Opacity="0.3"/>
-                </Border.Effect>
+                <Button x:Name="btnThongTinCaNhan"
+                        Content="👤 Thông tin cá nhân"
+                        Height="45"
+                        Margin="20,5"
+                        Background="White"
+                        Foreground="#3AA0AD"
+                        FontWeight="Bold"
+                        BorderBrush="#3AA0AD"
+                        BorderThickness="1"
+                        Cursor="Hand"
+                        Click="btnThongTinCaNhan_Click"/>
 
-                <StackPanel VerticalAlignment="Stretch" Margin="5">
-                    <Button Content="Thông báo"
-                            Style="{StaticResource buttonStyleKey}"
-                            Padding="15,12" Margin="10,8"
-                            HorizontalAlignment="Stretch"
-                            HorizontalContentAlignment="Left"
-                            FontWeight="Medium"/>
+                <Button x:Name="btnDoiMatKhau"
+                        Content="🔑 Đổi mật khẩu"
+                        Height="45"
+                        Margin="20,5"
+                        Background="White"
+                        Foreground="#3AA0AD"
+                        FontWeight="Bold"
+                        BorderBrush="#3AA0AD"
+                        BorderThickness="1"
+                        Cursor="Hand"
+                        Click="btnDoiMatKhau_Click"/>
+            </StackPanel>
+        </Border>
 
-                    <Button Content="Tài khoản"
-                            Style="{StaticResource buttonStyleKey}"
-                            Padding="15,12" Margin="10,8"
-                            HorizontalAlignment="Stretch"
-                            HorizontalContentAlignment="Left"
-                            FontWeight="Medium"/>
-
-                    <Button Content="Đổi mật khẩu"
-                            Style="{StaticResource buttonStyleKey}"
-                            Padding="15,12" Margin="10,8"
-                            HorizontalAlignment="Stretch"
-                            HorizontalContentAlignment="Left"
-                            FontWeight="Medium"/>
-                </StackPanel>
-            </Border>
-
-            <!-- CỘT PHẢI: Khu vực hiển thị -->
-            <Border Grid.Column="1"
-                    Background="White"
-                    CornerRadius="15"
-                    Padding="30"
-                    BorderBrush="#D0D0D0"
-                    BorderThickness="1">
-                <Border.Effect>
-                    <DropShadowEffect Color="#CCCCCC" ShadowDepth="2" BlurRadius="8" Opacity="0.3"/>
-                </Border.Effect>
-
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock Text="Chọn mục bên trái để thay đổi cài đặt"
-                               FontSize="16"
-                               FontStyle="Italic"
-                               Foreground="Gray"
-                               TextAlignment="Center"/>
-                </StackPanel>
-            </Border>
-        </Grid>
+        <!-- Khung nội dung bên phải -->
+        <Frame x:Name="MainFrame"
+               Grid.Column="1"
+               NavigationUIVisibility="Hidden"
+               Margin="20"
+               Background="White"/>
     </Grid>
 </Page>

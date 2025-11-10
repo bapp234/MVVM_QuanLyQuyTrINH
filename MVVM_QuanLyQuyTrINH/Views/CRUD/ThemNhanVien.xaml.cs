@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MVVM_QuanLyQuyTrINH.Views.Pages
+namespace MVVM_QuanLyQuyTrINH.Views.CRUD
 {
     /// <summary>
-    /// Interaction logic for TrangChu.xaml
+    /// Interaction logic for ThemNhanVien.xaml
     /// </summary>
-    public partial class TrangChu : Page
+    public partial class ThemNhanVien : Window
     {
-        public TrangChu()
+        public ThemNhanVien()
         {
             InitializeComponent();
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MVVM_QuanLyQuyTrINH.Models
+namespace MVVM_QuanLyQuyTrINH.Models.Project
 {
     public partial class QuyTrinh
     {

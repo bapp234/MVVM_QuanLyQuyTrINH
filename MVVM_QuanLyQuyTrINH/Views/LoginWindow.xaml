@@ -36,10 +36,10 @@
                 </Canvas>
 
                 <StackPanel VerticalAlignment="Center" Margin="20">
-                    <Image gif:ImageBehavior.AnimatedSource="C:\Users\admin\Desktop\TTCN\code\MVVM_QuanLyQuyTrINH\Images\meme-cat-cat-meme.gif"
-                               Stretch="Uniform"
-                               Width="120"
-                               Height="120"/>
+                    <Image gif:ImageBehavior.AnimatedSource="pack://application:,,,/Images/meme-cat-cat-meme.gif"
+                              Width="120"
+                              Height="120"
+                              Stretch="Uniform"/>
                     <TextBlock Text="Chào mừng trở lại!" Style="{StaticResource tittleText}" Foreground="White" Margin="0,0,0,10"/>
                     <TextBlock Text="Vui lòng đăng nhập để tiếp tục" Style="{StaticResource normalText}" Foreground="White"/>
                 </StackPanel>
