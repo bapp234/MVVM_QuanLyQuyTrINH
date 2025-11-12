@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MVVM_QuanLyQuyTrINH.Models.Account;
 
 namespace MVVM_QuanLyQuyTrINH.Views.Pages
 {
@@ -20,15 +21,17 @@ namespace MVVM_QuanLyQuyTrINH.Views.Pages
     /// </summary>
     public partial class CaiDat : Page
     {
-        public CaiDat()
+        private User _currentUser;
+        public CaiDat(User user)
         {
             InitializeComponent();
-            MainFrame.Navigate(new ThongTinCaNhan());
+            _currentUser = user;
+            MainFrame.Navigate(new ThongTinCaNhan(_currentUser));
         }
 
         private void btnThongTinCaNhan_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new ThongTinCaNhan());
+            MainFrame.Navigate(new ThongTinCaNhan(_currentUser));
         }
 
         private void btnDoiMatKhau_Click(object sender, RoutedEventArgs e)

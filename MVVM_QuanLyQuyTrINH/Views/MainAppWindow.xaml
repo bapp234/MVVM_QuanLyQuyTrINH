@@ -72,11 +72,12 @@
                     ToolTip="Tài khoản"
                     FontSize="18"
                     Content="👤"
-                    Style="{StaticResource buttonCircle}"/>
+                    Style="{StaticResource buttonCircle}"
+                    Click="btnThongTinCaNhan_Click"/>
 
-            <TextBlock Text="Admin"
+            <TextBlock Text="{Binding HoTen}"
                        Foreground="#4EB1B6"
-                       FontSize="15"
+                       FontSize="20"           
                        VerticalAlignment="Center"
                        Margin="10,0,0,5"/>
         </StackPanel>

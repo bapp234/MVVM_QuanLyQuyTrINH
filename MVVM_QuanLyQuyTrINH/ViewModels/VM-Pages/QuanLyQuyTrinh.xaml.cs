@@ -1,5 +1,6 @@
 ﻿using MVVM_QuanLyQuyTrINH.Models.Context;
 using MVVM_QuanLyQuyTrINH.Models.Project;
+using MVVM_QuanLyQuyTrINH.Views;
 using MVVM_QuanLyQuyTrINH.Views.Details;
 using System;
 using System.Collections.Generic;
@@ -15,17 +16,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using MVVM_QuanLyQuyTrINH.Views.Windows;
 namespace MVVM_QuanLyQuyTrINH.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for QuyTrinh.xaml
+    /// Interaction logic for QuanLyQuyTrinh.xaml
     /// </summary>
-    public partial class QuyTrinh : Page
+    public partial class QuanLyQuyTrinh : Page
     {
         private readonly QLQuyTrinhLamViecContext _context = new QLQuyTrinhLamViecContext();
         private List<DuAn> _allQuyTrinh = new List<DuAn>();
-        public QuyTrinh()
+        public QuanLyQuyTrinh()
         {
             InitializeComponent();
             LoadData();
@@ -81,6 +82,21 @@ namespace MVVM_QuanLyQuyTrINH.Views.Pages
 
             ChiTietQuyTrinh popup = new ChiTietQuyTrinh(duAn, danhSachBuoc);
             popup.ShowDialog();
+        }
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            // Quay lại trang quản lý
+            NavigationService.GoBack();
+        }
+        private void btnThemDuAn_Click(object sender, RoutedEventArgs e)
+        {
+            ThemDuAn themDuAnWindow = new ThemDuAn();
+            bool? result = themDuAnWindow.ShowDialog();
+
+            if (result == true)
+            {
+                LoadData(); // Reload danh sách dự án
+            }
         }
     }
 }

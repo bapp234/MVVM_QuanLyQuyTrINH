@@ -45,21 +45,42 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="buttonCircle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Width" Value="38"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="White"/>
+            <!-- Thêm để icon hiện màu trắng -->
+            <Setter Property="Background" Value="#3AA0AD"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-            <Setter Property="Margin" Value="10 0"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" 
-                         CornerRadius="30" BorderThickness="1" 
-                         BorderBrush="Gray" Padding="15">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        SnapsToDevicePixels="True">
+                            <!-- ✅ Bắt buộc để hiển thị Content (icon, chữ, emoji) -->
+                            <ContentPresenter 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center"
+                        RecognizesAccessKey="True"/>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <!-- Hover -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#2C8A8A"/>
+                            </Trigger>
+                            <!-- Khi nhấn -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#256E6E"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
         <Style x:Key="buttonStyleKey" TargetType="Button">
             <Setter Property="Background" Value="#E6F6F7"/>
             <Setter Property="Foreground" Value="#2C8A8A"/>
@@ -147,6 +168,20 @@
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="BorderBrush" Value="#3AA0AD"/>
             <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style x:Key="CardBorderStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="BorderBrush" Value="#3AA0AD"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Application.Resources>
 </Application>

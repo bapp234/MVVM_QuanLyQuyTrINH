@@ -1,0 +1,95 @@
+﻿<Window x:Class="MVVM_QuanLyQuyTrINH.Views.Details.ChiTietNhanVien"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Chi Tiết Nhân Viên"
+        Height="550" Width="700"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True">
+
+    <Border Margin="20" CornerRadius="10" BorderBrush="#3AA0AD" BorderThickness="2" Padding="20" Background="White">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- ====== TIÊU ĐỀ ====== -->
+            <TextBlock Text="👤 Thông Tin Chi Tiết Nhân Viên"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       Foreground="#3AA0AD"
+                       Margin="0,0,0,20"/>
+
+            <!-- ====== THÔNG TIN NHÂN VIÊN ====== -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Ảnh đại diện (tùy chọn sau) -->
+                <Border Grid.Column="0"
+                        CornerRadius="10"
+                        Background="#E6F6F7"
+                        Width="180" Height="180"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Margin="0,0,20,0">
+                    <TextBlock Text="👤"
+                               FontSize="80"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="#3AA0AD"/>
+                </Border>
+
+                <!-- Thông tin chi tiết -->
+                <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
+                    <TextBlock Text="{Binding HoTen, StringFormat='Họ và tên: {0}'}"
+                               FontSize="16" Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding UserId, StringFormat='Mã nhân viên: {0}'}"
+                               FontSize="16" Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding Email, StringFormat='Email: {0}'}"
+                               FontSize="16" Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding MaVaiTroNavigation.TenVaiTro, StringFormat='Vai trò: {0}'}"
+                                    FontSize="16" Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding MaVaiTroNavigation.MoTa, StringFormat='Mô tả: {0}'}"
+                               FontSize="16" Margin="0,0,0,10"/>
+                          
+                    <TextBlock Text="{Binding NhanVien.MaPb, StringFormat='Phòng ban: {0}'}"
+                               FontSize="16" Margin="0,0,0,10"/>
+                    <TextBlock Text="Công việc đang phụ trách:" 
+                               FontSize="18" FontWeight="Bold" 
+                               Foreground="#3AA0AD" Margin="0,20,0,10"/>
+                    <ListView x:Name="ListViewCongViecs" Height="135">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Tên công việc" DisplayMemberBinding="{Binding TenCv}" Width="230"/>
+                                <GridViewColumn Header="Trạng thái" DisplayMemberBinding="{Binding TrangThai}" Width="100"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+
+            <!-- ====== NÚT ĐÓNG ====== -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                <Button Content="Đóng"
+                        Width="100"
+                        Height="35"
+                        Background="#3AA0AD"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="Close_Click"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

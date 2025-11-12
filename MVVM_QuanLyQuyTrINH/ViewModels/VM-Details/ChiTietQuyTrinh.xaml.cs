@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace MVVM_QuanLyQuyTrINH.Views
+namespace MVVM_QuanLyQuyTrINH.Views.Details
 {
     /// <summary>
     /// Interaction logic for ChiTietQuyTrinh.xaml
@@ -37,6 +37,10 @@ namespace MVVM_QuanLyQuyTrINH.Views
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+        private void Edit_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Chức năng đang phát triển!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

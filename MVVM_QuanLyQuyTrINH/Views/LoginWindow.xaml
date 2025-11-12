@@ -76,7 +76,7 @@
                                 Background="Transparent" BorderThickness="0"
                                 Click="TogglePassword_Click"/>
                     </Grid>
-                    <Button Content="Đăng nhập" Background="#3AD19B" Foreground="White" 
+                    <Button Content="Đăng nhập" Background="#3AD19B" Foreground="White" IsDefault="True"
                             FontWeight="Bold" Height="40" Margin="0,25,0,0" BorderThickness="0" Click="Login_Click"/>
 
                     <!-- Quên mật khẩu -->

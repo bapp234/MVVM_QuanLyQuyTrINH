@@ -1,53 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Data;
+    using System.Windows.Documents;
+    using System.Windows.Input;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
+    using System.Windows.Navigation;
+    using System.Windows.Shapes;
 
-namespace MVVM_QuanLyQuyTrINH.Views.Pages
-{
-    /// <summary>
-    /// Interaction logic for QuanLy.xaml
-    /// </summary>
-    public partial class QuanLy : Page
+    namespace MVVM_QuanLyQuyTrINH.Views.Pages
     {
-        public QuanLy()
+        /// <summary>
+        /// Interaction logic for QuanLy.xaml
+        /// </summary>
+        public partial class QuanLy : Page
         {
-            InitializeComponent();
+            private Frame _mainframe;
+            public QuanLy(Frame mainframe) 
+            {
+                InitializeComponent();
+                _mainframe = mainframe;
         }
-        private void btnQuanLyDuAn_Click(object sender, RoutedEventArgs e)
-        {
-            return;
-            //MainFrame.Navigate(new QuanLyDuAn());
+            private void btnQuanLyNhanVien_Click(object sender, RoutedEventArgs e)
+            {
+                _mainframe.Navigate(new QuanLyNhanVien());
         }
-        private void btnQuanLyNhanVien_Click(object sender, RoutedEventArgs e)
-        {
-            return;
-            //MainFrame.Navigate(new QuanLyNguoiDung());
+            private void btnPhanQuyen_Click(object sender, RoutedEventArgs e)
+            {
+                _mainframe.Navigate(new PhanQuyen());
         }
-        private void btnPhanQuyen_Click(object sender, RoutedEventArgs e)
-        {
-            return;
-            //MainFrame.Navigate(new QuanLyPhanQuyen());
+            private void btnQuanLyQuyTrinh_Click(object sender, RoutedEventArgs e)
+            {
+                _mainframe.Navigate(new QuanLyQuyTrinh());
+            }
+          private void btnQuanLyCongViec_Click(object sender, RoutedEventArgs e)
+            {
+               _mainframe.Navigate(new QuanLyCongViec());
         }
-        private void btnQuanLyQuyTrinh_Click(object sender, RoutedEventArgs e)
-        {
-            return;
-            //MainFrame.Navigate(new QuanLyQuyTrinh());
-        }
-      private void btnQuanLyCongViec_Click(object sender, RoutedEventArgs e)
-        {
-            return;
-            //MainFrame.Navigate(new QuanLyCongViec());
         }
     }
-}
