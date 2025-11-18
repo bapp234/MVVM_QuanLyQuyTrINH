@@ -11,11 +11,8 @@
     <Grid Background="White" Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Header -->
             <RowDefinition Height="Auto"/>
-            <!-- Search bar -->
             <RowDefinition Height="*"/>
-            <!-- Content -->
         </Grid.RowDefinitions>
 
         <!-- ===================== HEADER ===================== -->
@@ -65,7 +62,7 @@
                          TextChanged="SearchTextBox_TextChanged"/>
 
                 <TextBlock x:Name="PlaceholderText"
-                           Text="🔍 Nhập thông tin..."
+                           Text="🔍 Nhập thông tin dự án..."
                            Foreground="Gray"
                            FontSize="16"
                            VerticalAlignment="Center"
@@ -102,7 +99,7 @@
             <!-- Nút tạo mới -->
             <Button Grid.Column="3"
                     Content="＋ Tạo Quy Trình"
-                    Width="160"
+                    Width="180"
                     Background="SeaGreen"
                     Foreground="White"
                     FontWeight="Bold"
@@ -114,7 +111,7 @@
         </Grid>
 
 
-        <!-- ===================== DANH SÁCH DỰ ÁN ===================== -->
+        <!-- ===================== DANH SÁCH QUY TRÌNH ===================== -->
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
             <ItemsControl x:Name="ProcessList">
                 <ItemsControl.ItemsPanel>
@@ -126,48 +123,117 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="White"
+                        <Border x:Name="ProcessCard"
+                                Background="White"
                                 BorderBrush="#3AA0AD"
                                 BorderThickness="1"
                                 CornerRadius="10"
                                 Width="280"
-                                Height="150"
+                                Height="180"
                                 Margin="10"
                                 Padding="12"
-                                Cursor="Hand"
-                                MouseLeftButtonUp="Border_MouseLeftButtonUp">
+                                Cursor="Hand">
 
-                            <StackPanel>
-                                <TextBlock Text="{Binding TenDuAn}"
-                                           FontSize="18"
-                                           FontWeight="Bold"
-                                           Foreground="#2C8A8A"
-                                           Margin="0,0,0,8"/>
+                            <Grid>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding TenDuAn}"
+                                               FontSize="18"
+                                               FontWeight="Bold"
+                                               Foreground="#2C8A8A"
+                                               Margin="0,0,0,8"/>
 
-                                <TextBlock Text="{Binding MaDuAn, StringFormat='Mã dự án: {0}'}"
-                                           Foreground="Gray"
-                                           FontSize="14"/>
+                                    <TextBlock Text="{Binding MaDuAn, StringFormat='Mã dự án: {0}'}"
+                                               Foreground="Gray"
+                                               FontSize="14"/>
 
-                                <TextBlock Text="{Binding TrangThai}"
-                                           FontSize="14"
-                                           FontWeight="SemiBold"
-                                           Margin="0,4,0,0"/>
+                                    <TextBlock Text="{Binding TrangThai, StringFormat='Trạng thái: {0}'}"
+                                               Foreground="#444"
+                                               FontSize="13"
+                                               Margin="0,4,0,0"/>
 
-                                <TextBlock Text="{Binding NgayBatDau, StringFormat='Bắt đầu: {0:dd/MM/yyyy}'}"
-                                           Foreground="#555"
-                                           FontSize="13"
-                                           Margin="0,4,0,0"/>
+                                    <TextBlock Text="{Binding NgayBatDau, StringFormat='Bắt đầu: {0:dd/MM/yyyy}'}"
+                                               Foreground="#555"
+                                               FontSize="13"
+                                               Margin="0,4,0,0"/>
 
-                                <TextBlock Text="{Binding NgayKetThuc, StringFormat='Kết thúc: {0:dd/MM/yyyy}'}"
-                                           Foreground="#555"
-                                           FontSize="13"
-                                           Margin="0,4,0,0"/>
-                            </StackPanel>
+                                    <TextBlock Text="{Binding NgayKetThuc, StringFormat='Kết thúc: {0:dd/MM/yyyy}'}"
+                                               Foreground="#555"
+                                               FontSize="13"
+                                               Margin="0,4,0,0"/>
+                                </StackPanel>
+
+                                <!-- Nút chức năng -->
+                                <StackPanel x:Name="ButtonPanel"
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Margin="0,0,0,5"
+                                            Visibility="Collapsed">
+
+                                    <Button Content="👁 Xem"
+                                            Margin="10,0,0,0"
+                                            Padding="8,2"
+                                            FontSize="12"
+                                            Background="#2196F3"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            Cursor="Hand"
+                                            Click="ViewProcess_Click"/>
+
+                                    <Button Content="✏️ Sửa"
+                                            Margin="10,0,0,0"
+                                            Padding="8,2"
+                                            FontSize="12"
+                                            Background="#4CAF50"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            Cursor="Hand"
+                                            Click="EditProcess_Click"/>
+
+                                    <Button Content="🗑 Xóa"
+                                            Margin="10,0,0,0"
+                                            Padding="8,2"
+                                            FontSize="12"
+                                            Background="#E53935"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            Cursor="Hand"
+                                            Click="DeleteProcess_Click"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Trigger hover -->
+                            <Border.Triggers>
+                                <EventTrigger RoutedEvent="MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel"
+                                                                           Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0" 
+                                                                        Value="{x:Static Visibility.Visible}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+
+                                <EventTrigger RoutedEvent="MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel"
+                                                                           Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0" 
+                                                                        Value="{x:Static Visibility.Collapsed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Border.Triggers>
+
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
+
             </ItemsControl>
         </ScrollViewer>
-
     </Grid>
 </Page>

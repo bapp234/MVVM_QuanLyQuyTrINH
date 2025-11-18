@@ -1,10 +1,13 @@
-﻿using MVVM_QuanLyQuyTrINH.Models.Context;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using MVVM_QuanLyQuyTrINH.Models.Account;
+using MVVM_QuanLyQuyTrINH.Models.Context;
+using MVVM_QuanLyQuyTrINH.Models.Project;
+using MVVM_QuanLyQuyTrINH.Views.Details;
+using MVVM_QuanLyQuyTrINH.Views.Windows;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using MVVM_QuanLyQuyTrINH.Views.Windows;
 
 namespace MVVM_QuanLyQuyTrINH.Views.Pages
 {
@@ -89,16 +92,33 @@ namespace MVVM_QuanLyQuyTrINH.Views.Pages
         private void ViewTask_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            var task = button?.DataContext as Models.Project.CongViec;
-            if (task != null)
-            {
-                MessageBox.Show($"Chi tiết công việc:\nTên: {task.TenCv}\nTrạng thái: {task.TrangThai}\nPhụ trách: {task.MaNvphuTrachNavigation?.MaNvNavigation?.HoTen}", "Thông tin");
-            }
+            if (button == null) return;
+
+            var congViec = button.DataContext as CongViec;
+            if (congViec == null) return;
+
+            // Mở popup chi tiết nhân viên
+            ChiTietCongViec popup = new ChiTietCongViec(congViec);
+            popup.ShowDialog();
         }
 
         private void EditTask_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Chức năng chỉnh sửa đang được phát triển!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            var button = sender as Button;
+            if (button == null) return;
+
+            var congViec = button.DataContext as CongViec;
+            if (congViec == null) return;
+
+            // Tạo cửa sổ sửa công việc, truyền công việc hiện tại
+            var suaCongViecWindow = new Windows.SuaCongViec(congViec.MaCv);
+
+            // Mở cửa sổ dưới dạng modal
+            suaCongViecWindow.Owner = Application.Current.MainWindow; // Đặt cửa sổ cha
+            suaCongViecWindow.ShowDialog();
+
+            // Sau khi sửa xong, load lại danh sách công việc
+            LoadData();
         }
 
         private void DeleteTask_Click(object sender, RoutedEventArgs e)

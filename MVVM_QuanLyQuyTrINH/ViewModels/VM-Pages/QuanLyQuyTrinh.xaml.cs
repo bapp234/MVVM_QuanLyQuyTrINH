@@ -67,21 +67,51 @@ namespace MVVM_QuanLyQuyTrINH.Views.Pages
             //ProcessList.ItemsSource = filtered;
             return;
         }
-        private void Border_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void ViewProcess_Click(object sender, RoutedEventArgs e)
         {
-            var border = sender as Border;
-            if (border == null) return;
+            // Ngăn chặn sự kiện click lan ra Border
+            e.Handled = true;
 
-            var duAn = border.DataContext as DuAn;
+            // Lấy button
+            var button = sender as Button;
+            if (button == null) return;
+
+            // Lấy DataContext của thẻ
+            var duAn = button.DataContext as DuAn;
+            if (duAn == null) return;
+
+            // Lấy danh sách bước quy trình từ DB
+            var danhSachBuoc = _context.QuyTrinhs
+                                       .Where(q => q.MaDuAn == duAn.MaDuAn)
+                                       .ToList();
+
+            // Mở cửa sổ chi tiết
+            ChiTietQuyTrinh popup = new ChiTietQuyTrinh(duAn, danhSachBuoc);
+            popup.ShowDialog();
+        }
+        private void EditProcess_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button == null) return;
+
+            var duAn = button.DataContext as DuAn;
             if (duAn == null) return;
 
             // Lấy danh sách bước từ database
-            List<Models.Project.QuyTrinh> danhSachBuoc = _context.QuyTrinhs
-                                                    .Where(q => q.MaDuAn == duAn.MaDuAn)
-                                                    .ToList();
+            var danhSachBuoc = _context.QuyTrinhs
+                                       .Where(q => q.MaDuAn == duAn.MaDuAn)
+                                       .ToList();
 
-            ChiTietQuyTrinh popup = new ChiTietQuyTrinh(duAn, danhSachBuoc);
-            popup.ShowDialog();
+            // Mở cửa sổ sửa dự án
+            var suaDuAn = new SuaDuAn(duAn, danhSachBuoc);
+            suaDuAn.ShowDialog();
+
+            // Reload lại danh sách sau khi sửa
+            LoadData();
+        }
+        private void DeleteProcess_Click(object sender, RoutedEventArgs e)
+        {
+            return;
         }
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {

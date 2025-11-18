@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using MVVM_QuanLyQuyTrINH.Views.Windows;
 using MVVM_QuanLyQuyTrINH.Models.Account;
 using Microsoft.EntityFrameworkCore;
+using MVVM_QuanLyQuyTrINH.Views.CRUD;
 namespace MVVM_QuanLyQuyTrINH.Views.Pages;
 
 
@@ -128,7 +129,15 @@ namespace MVVM_QuanLyQuyTrINH.Views.Pages;
         }
         private void EditEmployee_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Chức năng đang phát triển!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            var button = sender as Button;
+            if (button == null) return;
+
+            var nhanVien = button.DataContext as User;
+            if (nhanVien == null) return;
+
+            // Mở popup chi tiết nhân viên
+            SuaNhanVien popup = new SuaNhanVien(nhanVien);
+            popup.ShowDialog();
         }
         private void DeleteEmployee_Click(object sender, RoutedEventArgs e)
         {
