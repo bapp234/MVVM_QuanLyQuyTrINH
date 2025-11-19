@@ -41,9 +41,10 @@
                     <Button Content="  🏠  Trang chủ" Style="{StaticResource MenuButtonStyle}" Margin="10" Click="TrangChu_Click"/>
                     <Button Content="  👥  Quản lý" Style="{StaticResource MenuButtonStyle}" Margin="10" Click="QuanLy_Click"/>
                     <Button Content="  📄  Quy trình" Style="{StaticResource MenuButtonStyle}" Margin="10" Click="QuyTrinh_Click"/>
+                    <Button Content="  🏢  Công việc" Style="{StaticResource MenuButtonStyle}" Margin="10" Click="CongViec_Click"/>
                     <Button Content="  📊  Báo cáo" Style="{StaticResource MenuButtonStyle}" Margin="10" Click="BaoCao_Click"/>
                     <Button Content="  ⚙️  Cài đặt" Style="{StaticResource MenuButtonStyle}" Margin="10" Click="CaiDat_Click"/>
-                    <Button Content="  🚪  Đăng xuất" Style="{StaticResource MenuButtonStyle}" Margin="10 290" Click="Logout_Click"/>
+                    <Button Content="  🚪  Đăng xuất" Style="{StaticResource MenuButtonStyle}" Margin="10 240" Click="Logout_Click"/>
 
                 </StackPanel>
             </Grid>

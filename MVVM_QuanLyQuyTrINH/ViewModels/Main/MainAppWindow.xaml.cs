@@ -48,8 +48,11 @@ namespace MVVM_QuanLyQuyTrINH.Views
             {
                 MainFrame.Navigate(new Views.Pages.BaoCao());
             }
-
-            private void CaiDat_Click(object sender, RoutedEventArgs e)
+            private void CongViec_Click(object sender, RoutedEventArgs e)
+            {
+                MainFrame.Navigate(new Views.Pages.CongViec());
+            }
+        private void CaiDat_Click(object sender, RoutedEventArgs e)
             {
                 MainFrame.Navigate(new Views.Pages.CaiDat(_currentUser));
             }

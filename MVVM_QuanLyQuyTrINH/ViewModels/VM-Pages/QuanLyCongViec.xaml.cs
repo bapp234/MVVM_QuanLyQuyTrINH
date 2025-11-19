@@ -8,6 +8,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CongViecModel = MVVM_QuanLyQuyTrINH.Models.Project.CongViec;
+
 
 namespace MVVM_QuanLyQuyTrINH.Views.Pages
 {
@@ -94,7 +96,7 @@ namespace MVVM_QuanLyQuyTrINH.Views.Pages
             var button = sender as Button;
             if (button == null) return;
 
-            var congViec = button.DataContext as CongViec;
+            var congViec = button.DataContext as CongViecModel;
             if (congViec == null) return;
 
             // Mở popup chi tiết nhân viên
@@ -107,7 +109,7 @@ namespace MVVM_QuanLyQuyTrINH.Views.Pages
             var button = sender as Button;
             if (button == null) return;
 
-            var congViec = button.DataContext as CongViec;
+            var congViec = button.DataContext as CongViecModel;
             if (congViec == null) return;
 
             // Tạo cửa sổ sửa công việc, truyền công việc hiện tại
