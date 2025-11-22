@@ -4,53 +4,60 @@ using MVVM_QuanLyQuyTrINH.Models.Project;
 using MVVM_QuanLyQuyTrINH.Models.Account;
 using System.Linq;
 using System.Windows;
+using MVVM_QuanLyQuyTrINH.Services;
 
 namespace MVVM_QuanLyQuyTrINH.Views.Windows
 {
     public partial class SuaCongViec : Window
     {
         private readonly QLQuyTrinhLamViecContext _context = new QLQuyTrinhLamViecContext();
+        private readonly WorkService _workService = new WorkService();
 
         public CongViec CongViec { get; set; }
-        public IQueryable<NhanVien> DanhSachNhanVien { get; set; }
-
+        public List<NhanVien> DanhSachNhanVien { get; set; }
         public SuaCongViec(int maCv)
         {
             InitializeComponent();
+            LoadCongViec(maCv);
 
-            // Load công việc cùng nhân viên phụ trách
-            CongViec = _context.CongViecs
-                               .Include(c => c.MaNvphuTrachNavigation)
-                               .ThenInclude(nv => nv.MaNvNavigation) // để lấy User.HoTen
-                               .FirstOrDefault(c => c.MaCv == maCv);
-
+        }
+        private void LoadCongViec(int maCv)
+        {
+         CongViec = _context.CongViecs
+                .Include(cv => cv.MaDuAnNavigation)
+                .Include(cv => cv.MaNvphuTrachNavigation)
+                    .ThenInclude(nv => nv.MaNvNavigation)
+                .FirstOrDefault(cv => cv.MaCv == maCv);
             if (CongViec == null)
             {
-                MessageBox.Show("Không tìm thấy công việc.");
-                Close();
+                MessageBox.Show("Không tìm thấy công việc này (Có thể đã bị xóa).");
+                this.Close();
                 return;
             }
-
-            // Load danh sách nhân viên để chọn
             DanhSachNhanVien = _context.NhanViens
-                                      .Include(nv => nv.MaNvNavigation) // User
-                                      .AsQueryable();
-
+                .Include(nv => nv.MaNvNavigation)
+                .ToList();
             this.DataContext = this;
         }
-
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(CongViec.TenCv))
+                {
+                    MessageBox.Show("Tên công việc không được để trống!");
+                    return;
+                }
                 _context.CongViecs.Update(CongViec);
                 _context.SaveChanges();
                 MessageBox.Show("Cập nhật công việc thành công!");
-                Close();
+                this.DialogResult = true;
+                this.Close();
             }
             catch (System.Exception ex)
             {
-                MessageBox.Show($"Lỗi khi lưu: {ex.Message}");
+
+                MessageBox.Show($"Lỗi khi lưu: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using BCrypt.Net;
-using MVVM_QuanLyQuyTrINH.Models.Project;
-
 
 namespace MVVM_QuanLyQuyTrINH.Models.Account
 {
@@ -23,6 +22,26 @@ namespace MVVM_QuanLyQuyTrINH.Models.Account
         public void SetPassword(string password)
         {
             MatKhau = BCrypt.Net.BCrypt.HashPassword(password);
+        }
+        [NotMapped]
+        public string RoleName
+        {
+            get
+            {
+                return MaVaiTroNavigation?.TenVaiTro ?? "Unknown";
+            }
+        }
+
+        [NotMapped]
+        public string idToString
+        {
+            get
+            {
+                string fsID = "NV";
+                if(MaVaiTro==1) fsID="AD";
+                else if(MaVaiTro==2) fsID = "QL";
+                return $"{fsID}{UserId.ToString("D4")}";
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MVVM_QuanLyQuyTrINH.Models.Context;
+﻿using MVVM_QuanLyQuyTrINH.Models.Account;
+using MVVM_QuanLyQuyTrINH.Models.Context;
 using MVVM_QuanLyQuyTrINH.Models.Project;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,6 @@ namespace MVVM_QuanLyQuyTrINH.Views.Pages
         public TrangChu()
         {
             InitializeComponent();
-
             this.DataContext = this;
 
             LoadThongBao();

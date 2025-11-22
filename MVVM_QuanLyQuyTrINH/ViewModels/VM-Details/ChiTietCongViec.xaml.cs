@@ -11,21 +11,15 @@ namespace MVVM_QuanLyQuyTrINH.Views.Details
         private readonly QLQuyTrinhLamViecContext _context = new QLQuyTrinhLamViecContext();
 
         public CongViec CongViec { get; set; }
-
-        // Tên nhân viên phụ trách công việc
         public string TenNhanVienPhuTrach { get; set; }
-
-        // Danh sách lịch sử công việc với thông tin nhân viên
         public IQueryable<object> LichSuCongViec { get; set; }
-
         public ChiTietCongViec(CongViec congViec)
         {
             InitializeComponent();
 
-            // Load chi tiết công việc cùng nhân viên phụ trách và lịch sử công việc + nhân viên cập nhật
             CongViec = _context.CongViecs
                                .Include(c => c.MaNvphuTrachNavigation)
-                                   .ThenInclude(nv => nv.MaNvNavigation) // để lấy User
+                                   .ThenInclude(nv => nv.MaNvNavigation)
                                .Include(c => c.LichSuCongViecs)
                                    .ThenInclude(ls => ls.MaNvNavigation)
                                        .ThenInclude(nv => nv.MaNvNavigation)
@@ -38,11 +32,9 @@ namespace MVVM_QuanLyQuyTrINH.Views.Details
                 return;
             }
 
-            // Lấy tên nhân viên phụ trách
             TenNhanVienPhuTrach = CongViec.MaNvphuTrachNavigation?.MaNvNavigation?.HoTen
                                    ?? "Chưa có nhân viên phụ trách";
 
-            // Lấy danh sách lịch sử công việc
             LichSuCongViec = CongViec.LichSuCongViecs
                 .OrderByDescending(ls => ls.NgayCapNhat)
                 .Select(ls => new
@@ -52,7 +44,6 @@ namespace MVVM_QuanLyQuyTrINH.Views.Details
                     TenNhanVien = ls.MaNvNavigation?.MaNvNavigation?.HoTen ?? "Không xác định"
                 }).AsQueryable();
 
-            // Binding dữ liệu cho XAML
             this.DataContext = this;
             ListViewLichSu.ItemsSource = LichSuCongViec.ToList();
         }

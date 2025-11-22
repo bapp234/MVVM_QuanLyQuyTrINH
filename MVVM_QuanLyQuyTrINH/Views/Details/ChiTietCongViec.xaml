@@ -1,74 +1,157 @@
 ﻿<Window x:Class="MVVM_QuanLyQuyTrINH.Views.Details.ChiTietCongViec"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="Chi Tiết Công Việc"
-        Height="600" Width="700"
+        Height="650" Width="700"
         WindowStartupLocation="CenterScreen"
-        Background="Transparent"
         ResizeMode="NoResize"
         WindowStyle="None"
-        AllowsTransparency="True">
+        AllowsTransparency="True"
+        Background="#01FFFFFF" 
+        mc:Ignorable="d">
+    <!-- Background gần trong suốt để bắt sự kiện click đóng cửa sổ -->
 
-    <Border Margin="20" CornerRadius="10" BorderBrush="#3AA0AD" BorderThickness="2" Padding="20" Background="White">
-        <Grid>
+    <Border Margin="20" CornerRadius="12" Background="White" BorderBrush="#E0E0E0" BorderThickness="1">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="25" Opacity="0.3" ShadowDepth="5" Color="Gray"/>
+        </Border.Effect>
+
+        <Grid Margin="30">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <!-- Header -->
                 <RowDefinition Height="*"/>
+                <!-- Nội dung (Cuộn) -->
                 <RowDefinition Height="Auto"/>
+                <!-- Footer (Nút đóng) -->
             </Grid.RowDefinitions>
 
-            <!-- Tiêu đề -->
-            <TextBlock Text="📝 Thông Tin Chi Tiết Công Việc"
-                       FontSize="22"
-                       FontWeight="Bold"
-                       Foreground="#3AA0AD"
-                       Margin="0,0,0,20"/>
+            <!-- 1. HEADER: TIÊU ĐỀ & TRẠNG THÁI -->
+            <Grid Grid.Row="0" Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <!-- Nội dung chi tiết -->
-            <StackPanel Grid.Row="1" Margin="10,0,0,0">
+                <StackPanel>
+                    <!-- Removed LetterSpacing property as it is not supported in WPF TextBlock -->
+                    <TextBlock Text="CHI TIẾT CÔNG VIỆC" 
+                               FontSize="14" FontWeight="Bold" Foreground="#90A4AE"/>
+                    <TextBlock Text="{Binding CongViec.TenCv}" 
+                               FontSize="24" FontWeight="Bold" Foreground="#263238" 
+                               TextWrapping="Wrap" Margin="0,5,0,0"/>
+                </StackPanel>
 
-                <TextBlock Text="{Binding CongViec.TenCv, StringFormat='Tên công việc: {0}'}"
-                           FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
-                <TextBlock Text="{Binding CongViec.MoTa, StringFormat='Mô tả: {0}'}"
-                           FontSize="16" Margin="0,0,0,10"/>
-                <TextBlock Text="{Binding CongViec.NgayGiao, StringFormat='Ngày giao: {0:dd/MM/yyyy}'}"
-                           FontSize="16" Margin="0,0,0,10"/>
-                <TextBlock Text="{Binding CongViec.HanHoanThanh, StringFormat='Hạn hoàn thành: {0:dd/MM/yyyy}'}"
-                           FontSize="16" Margin="0,0,0,10"/>
-                <TextBlock Text="{Binding CongViec.TrangThai, StringFormat='Trạng thái: {0}'}"
-                           FontSize="16" Margin="0,0,0,10"/>
-                <TextBlock Text="{Binding TenNhanVienPhuTrach, StringFormat='Nhân viên phụ trách: {0}'}"
-                           FontSize="16" Margin="0,0,0,20" Foreground="#3AA0AD" FontWeight="Bold"/>
+                <!-- Badge Trạng Thái to -->
+                <Border Grid.Column="1" Background="{Binding CongViec.MauTrangThai}" 
+                        CornerRadius="8" Padding="12,6" VerticalAlignment="Top">
+                    <TextBlock Text="{Binding CongViec.TrangThai}" 
+                               Foreground="White" FontWeight="Bold" FontSize="14"/>
+                </Border>
+            </Grid>
 
-                <TextBlock Text="Lịch sử công việc:"
-                           FontSize="18" FontWeight="Bold"
-                           Foreground="#3AA0AD" Margin="0,0,0,10"/>
+            <!-- 2. NỘI DUNG CHI TIẾT -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,10,0">
+                <StackPanel>
 
-                <ListView x:Name="ListViewLichSu" Height="250">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Ngày cập nhật" Width="130"
-                                            DisplayMemberBinding="{Binding NgayCapNhat, StringFormat=dd/MM/yyyy HH:mm}"/>
-                            <GridViewColumn Header="Nội dung" Width="350"
-                                            DisplayMemberBinding="{Binding NoiDung}"/>
-                            <GridViewColumn Header="Người cập nhật" Width="150"
-                                            DisplayMemberBinding="{Binding TenNhanVien}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </StackPanel>
+                    <!-- Thông tin chung (Grid 2 cột) -->
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-            
+                        <!-- Cột Trái -->
+                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                            <!-- Mã CV -->
+                            <TextBlock Text="MÃ SỐ" FontSize="11" Foreground="Gray" FontWeight="SemiBold"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,2,0,15">
+                                <TextBlock Text="#" Foreground="#CFD8DC" FontSize="14" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding CongViec.maHienThi}" FontSize="16" FontWeight="Bold" Foreground="#546E7A"/>
+                            </StackPanel>
+
+                            <!-- Độ ưu tiên -->
+                            <TextBlock Text="ĐỘ ƯU TIÊN" FontSize="11" Foreground="Gray" FontWeight="SemiBold"/>
+                            <Border Background="#FFF3E0" CornerRadius="6" Padding="10,4" HorizontalAlignment="Left" Margin="0,2,0,15">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="⚡ " Foreground="#FF9800"/>
+                                    <TextBlock Text="{Binding CongViec.DoUuTien}" FontWeight="Bold" Foreground="#F57C00"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Dự án -->
+                            <TextBlock Text="THUỘC DỰ ÁN" FontSize="11" Foreground="Gray" FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding CongViec.TenDuAn}" FontSize="14" Foreground="#37474F" 
+                                       TextWrapping="Wrap" Margin="0,2,0,15" FontWeight="Medium"/>
+                        </StackPanel>
+
+                        <!-- Cột Phải -->
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                            <!-- Người phụ trách -->
+                            <TextBlock Text="NGƯỜI PHỤ TRÁCH" FontSize="11" Foreground="Gray" FontWeight="SemiBold"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,2,0,15">
+                                <TextBlock Text="👤 " FontSize="14"/>
+                                <TextBlock Text="{Binding TenNhanVienPhuTrach}" FontSize="15" Foreground="#3AA0AD" FontWeight="Bold"/>
+                            </StackPanel>
+
+                            <!-- Thời gian -->
+                            <TextBlock Text="THỜI GIAN THỰC HIỆN" FontSize="11" Foreground="Gray" FontWeight="SemiBold"/>
+                            <StackPanel Margin="0,2,0,15">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Bắt đầu: " Foreground="Gray"/>
+                                    <TextBlock Text="{Binding CongViec.NgayGiao, StringFormat='dd/MM/yyyy'}" Foreground="#455A64"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                    <TextBlock Text="Hạn chót: " Foreground="Gray"/>
+                                    <TextBlock Text="{Binding CongViec.HanHoanThanh, StringFormat='dd/MM/yyyy'}" 
+                                               FontWeight="Bold" Foreground="#E53935"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Mô tả -->
+                    <TextBlock Text="MÔ TẢ CHI TIẾT" FontSize="11" Foreground="Gray" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <Border Background="#F5F7F9" CornerRadius="8" Padding="15" Margin="0,0,0,20">
+                        <TextBlock Text="{Binding CongViec.MoTa}" 
+                                   FontSize="14" Foreground="#455A64" 
+                                   TextWrapping="Wrap" LineHeight="20"/>
+                    </Border>
+
+                    <!-- Lịch sử cập nhật -->
+                    <TextBlock Text="LỊCH SỬ CẬP NHẬT" FontSize="11" Foreground="Gray" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <Border BorderBrush="#ECEFF1" BorderThickness="1" CornerRadius="8">
+                        <ListView x:Name="ListViewLichSu" Height="150" BorderThickness="0">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Thời gian" Width="140" 
+                                                    DisplayMemberBinding="{Binding NgayCapNhat, StringFormat='dd/MM/yyyy HH:mm'}"/>
+                                    <GridViewColumn Header="Nội dung thay đổi" Width="320" 
+                                                    DisplayMemberBinding="{Binding NoiDung}"/>
+                                    <GridViewColumn Header="Người cập nhật" Width="130" 
+                                                    DisplayMemberBinding="{Binding TenNhanVien}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- 3. FOOTER -->
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-                <Button Content="Đóng"
-                        Width="100"
-                        Height="35"
-                        Background="#3AA0AD"
-                        Foreground="White"
-                        FontWeight="Bold"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Click="Close_Click"/>
+                <!-- Corrected 'fontSize' to 'FontSize' -->
+                <Button Content="Đóng" Width="120" Height="40" 
+                        Background="#3AA0AD" Foreground="White" FontWeight="Bold" FontSize="14"
+                        BorderThickness="0" Cursor="Hand" Click="Close_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="20"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
             </StackPanel>
         </Grid>
     </Border>

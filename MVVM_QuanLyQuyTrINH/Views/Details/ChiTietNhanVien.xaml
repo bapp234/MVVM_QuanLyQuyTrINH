@@ -51,9 +51,9 @@
 
                 <!-- Thông tin chi tiết -->
                 <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
+                    <TextBlock Text="{Binding idToString, StringFormat='Mã nhân viên: {0}'}" 
+                               FontSize="16"  Margin="0,0,0,10"/>
                     <TextBlock Text="{Binding HoTen, StringFormat='Họ và tên: {0}'}"
-                               FontSize="16" Margin="0,0,0,10"/>
-                    <TextBlock Text="{Binding UserId, StringFormat='Mã nhân viên: {0}'}"
                                FontSize="16" Margin="0,0,0,10"/>
                     <TextBlock Text="{Binding Email, StringFormat='Email: {0}'}"
                                FontSize="16" Margin="0,0,0,10"/>
@@ -61,7 +61,7 @@
                                     FontSize="16" Margin="0,0,0,10"/>
                     <TextBlock Text="{Binding MaVaiTroNavigation.MoTa, StringFormat='Mô tả: {0}'}"
                                FontSize="16" Margin="0,0,0,10"/>
-                          
+
                     <TextBlock Text="{Binding NhanVien.MaPb, StringFormat='Phòng ban: {0}'}"
                                FontSize="16" Margin="0,0,0,10"/>
                     <TextBlock Text="Công việc đang phụ trách:" 

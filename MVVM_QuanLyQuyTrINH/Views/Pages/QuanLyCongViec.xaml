@@ -1,238 +1,384 @@
 ﻿<Page x:Class="MVVM_QuanLyQuyTrINH.Views.Pages.QuanLyCongViec"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      mc:Ignorable="d"
-      d:DesignHeight="600"
-      d:DesignWidth="1000"
-      Title="Quản Lý Công Việc">
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Title="Quản Lý Công Việc"
+      d:DesignHeight="700"
+      d:DesignWidth="1100"
+      mc:Ignorable="d">
 
-    <Grid Background="White" Margin="20">
+    <Page.Resources>
+        <!-- STYLE CHO NÚT TRÒN NHỎ (XEM/SỬA/XÓA) -->
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Margin" Value="5,0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="16">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- STYLE CHO COMBOBOX LỌC -->
+        <Style x:Key="FilterComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Padding" Value="15,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="#F4F7F9">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <!-- Header -->
+            <RowDefinition Height="Auto" />
+            <!-- Toolbar -->
+            <RowDefinition Height="*" />
+            <!-- List Content -->
         </Grid.RowDefinitions>
 
-        <!-- ===================== HEADER ===================== -->
-        <Grid Margin="0,0,0,15">
+        <!-- 1. HEADER -->
+        <Grid Grid.Row="0" Margin="30,20,30,15">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Button Content="⬅ Quay về"
-                    Width="120"
-                    Height="36"
-                    Background="#3AA0AD"
-                    Foreground="White"
-                    FontWeight="Bold"
-                    BorderThickness="0"
+            <Button Click="btnBack_Click"
                     Cursor="Hand"
-                    Click="btnBack_Click"/>
+                    Style="{StaticResource ActionButtonStyle}"
+                    Width="40" Height="40"
+                    Background="White"
+                    BorderBrush="#E0E0E0"
+                    BorderThickness="1"
+                    ToolTip="Quay lại">
+                <Path Data="M20,11H7.83L13.42,5.41L12,4L4,12L12,20L13.41,18.59L7.83,13H20V11Z"
+                      Fill="#3AA0AD"
+                      Height="16"
+                      Stretch="Uniform"
+                      Width="16" />
+            </Button>
 
-            <TextBlock Text="Quản Lý Công Việc"
-                       Grid.Column="1"
-                       Foreground="#3AA0AD"
-                       FontSize="24"
-                       FontWeight="SemiBold"
-                       VerticalAlignment="Center"
-                       Margin="20,0,0,0"/>
+            <StackPanel Grid.Column="1"
+                        Margin="20,0,0,0"
+                        VerticalAlignment="Center">
+                <TextBlock FontSize="24"
+                           FontWeight="Bold"
+                           Foreground="#3AA0AD"
+                           Text="Quản lý Công việc" />
+            </StackPanel>
         </Grid>
 
-        <!-- ===================== THANH TÌM KIẾM ===================== -->
-        <Grid Grid.Row="1" Height="45" Margin="0,0,0,10">
+        <!-- 2. TOOLBAR -->
+        <Grid Grid.Row="1" Margin="30,0,30,20">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="350"/>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="300" />
+                <!-- Tìm kiếm -->
+                <ColumnDefinition Width="15" />
+                <!-- Khoảng cách -->
+                <ColumnDefinition Width="*" />
+                <!-- Các bộ lọc -->
+                <ColumnDefinition Width="Auto" />
+                <!-- Nút thêm -->
             </Grid.ColumnDefinitions>
 
-            <!-- Ô nhập -->
-            <Grid>
-                <TextBox x:Name="SearchTextBox"
-                         FontSize="16"
-                         Padding="10,0,0,0"
-                         VerticalContentAlignment="Center"
-                         BorderBrush="#3AA0AD"
-                         BorderThickness="1"
-                         TextChanged="SearchTextBox_TextChanged"/>
+            <!-- Ô Tìm kiếm -->
+            <Border Grid.Column="0"
+                    Height="45"
+                    Background="White"
+                    CornerRadius="10">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10"
+                                      Opacity="0.1"
+                                      ShadowDepth="2"
+                                      Color="#000" />
+                </Border.Effect>
 
-                <TextBlock x:Name="PlaceholderText"
-                           Text="🔍 Nhập tên công việc..."
-                           Foreground="Gray"
-                           FontSize="16"
-                           VerticalAlignment="Center"
-                           Margin="12,0,0,0"
-                           IsHitTestVisible="False"/>
-            </Grid>
+                <Grid VerticalAlignment="Center" Margin="15,0">
+                    <Path Data="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
+                          Fill="Gray" Width="18" Height="18" HorizontalAlignment="Left"/>
 
-            <!-- Bộ lọc -->
-            <ComboBox x:Name="cbFilter"
-                      Grid.Column="1"
-                      Margin="10,0,0,0"
-                      HorizontalContentAlignment="Center"
-                      VerticalContentAlignment="Center"
-                      Width="140"
-                      SelectedIndex="0"
-                      SelectionChanged="cbFilter_SelectionChanged">
-                <ComboBoxItem Content="Tất cả"/>
-                <ComboBoxItem Content="Đang thực hiện"/>
-                <ComboBoxItem Content="Hoàn thành"/>
-                <ComboBoxItem Content="Tạm dừng"/>
-            </ComboBox>
+                    <TextBox x:Name="SearchTextBox"
+                             Height="45"
+                             Padding="30,0,0,0"
+                             VerticalContentAlignment="Center"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             FontSize="14"
+                             TextChanged="SearchTextBox_TextChanged" />
 
-            <!-- Nút tìm -->
-            <Button Grid.Column="2"
-                    Margin="10,0,0,0"
-                    Content="Tìm kiếm"
-                    Background="#3AA0AD"
-                    Foreground="White"
-                    FontWeight="Bold"
-                    Height="40"
-                    BorderThickness="0"
-                    Cursor="Hand"
-                    Click="btnSearch_Click"/>
+                    <TextBlock x:Name="PlaceholderText"
+                               Margin="30,0,0,0"
+                               VerticalAlignment="Center"
+                               FontSize="14"
+                               Foreground="#AAA"
+                               IsHitTestVisible="False"
+                               Text="Tìm kiếm theo tên công việc, mã..." />
+                </Grid>
+            </Border>
 
-            <!-- Nút tạo mới -->
-            <Button Grid.Column="3"
-                    Content="＋ Tạo Công Việc"
-                    Width="160"
-                    Background="SeaGreen"
-                    Foreground="White"
-                    FontWeight="Bold"
-                    Height="40"
-                    HorizontalAlignment="Right"
-                    BorderThickness="0"
-                    Cursor="Hand"
-                    Click="btnThemCongViec_Click"/>
+            <!-- Khu vực Bộ lọc & Sắp xếp -->
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+
+                <!-- Lọc Dự Án -->
+                <Border Height="45" Margin="0,0,10,0" Background="White" CornerRadius="10">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" Opacity="0.1" ShadowDepth="2" Color="#000" />
+                    </Border.Effect>
+                    <ComboBox x:Name="cbFilterProject" Width="180" Height="45" 
+                      Style="{StaticResource FilterComboBoxStyle}" 
+                      DisplayMemberPath="TenDuAn" SelectedValuePath="MaDuAn"
+                      SelectionChanged="cbFilterProject_SelectionChanged"/>
+                </Border>
+
+                <!-- Lọc Trạng Thái -->
+                <Border Height="45" Margin="0,0,10,0" Background="White" CornerRadius="10">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" Opacity="0.1" ShadowDepth="2" Color="#000" />
+                    </Border.Effect>
+                    <ComboBox x:Name="cbFilterStatus" Width="150" Height="45" 
+                      Style="{StaticResource FilterComboBoxStyle}" 
+                      SelectedIndex="0" SelectionChanged="cbFilterStatus_SelectionChanged">
+                        <ComboBoxItem Content="Tất cả trạng thái" />
+                        <ComboBoxItem Content="Mới tạo" />
+                        <ComboBoxItem Content="Đang thực hiện" />
+                        <ComboBoxItem Content="Hoàn thành" />
+                        <ComboBoxItem Content="Tạm dừng" />
+                        <ComboBoxItem Content="Trễ hạn" />
+                        <ComboBoxItem Content="Đã hủy" />
+                    </ComboBox>
+                </Border>
+                <!-- Sắp xếp -->
+                <Border Height="45" Margin="0,0,10,0" Background="White" CornerRadius="10">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" Opacity="0.1" ShadowDepth="2" Color="#000" />
+                    </Border.Effect>
+                    <ComboBox x:Name="cbSort" Width="160" Height="45" 
+                      Style="{StaticResource FilterComboBoxStyle}" 
+                      SelectedIndex="0" SelectionChanged="cbSort_SelectionChanged">
+                        <ComboBoxItem Content="Mới nhất trước" Tag="DateDesc"/>
+                        <ComboBoxItem Content="Cũ nhất trước" Tag="DateAsc"/>
+                        <ComboBoxItem Content="Tên A-Z" Tag="NameAsc"/>
+                        <ComboBoxItem Content="Tên Z-A" Tag="NameDesc"/>
+                        <ComboBoxItem Content="Ưu tiên cao nhất" Tag="Priority"/>
+                    </ComboBox>
+                </Border>
+            </StackPanel>
+            <!-- Nút Thêm -->
+            <Button Grid.Column="3" Width="160" Height="45" Background="#3AA0AD" BorderThickness="0" Click="btnAddWork_Click" Content="+ Thêm Công Việc" Cursor="Hand" FontWeight="SemiBold" Foreground="White">
+                <Button.Effect>
+                    <DropShadowEffect Color="#3AA0AD" BlurRadius="10" ShadowDepth="2" Opacity="0.4"/>
+                </Button.Effect>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </Grid>
 
-        <!-- ===================== DANH SÁCH CÔNG VIỆC ===================== -->
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-            <ItemsControl x:Name="TaskList">
+        <!-- 3. DANH SÁCH CÔNG VIỆC -->
+        <ScrollViewer Grid.Row="2"
+                      BorderThickness="0"
+                      Padding="20,0"
+                      VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="WorkList">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" Margin="0,10,0,0"/>
+                        <WrapPanel HorizontalAlignment="Left" Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border x:Name="TaskCard"
+                        <!-- THẺ CÔNG VIỆC (CARD) -->
+                        <Border Width="280"
+                                Height="160"
+                                Margin="15"
                                 Background="White"
-                                BorderBrush="#3AA0AD"
-                                BorderThickness="1"
-                                CornerRadius="10"
-                                Width="280"
-                                Height="200"
-                                Margin="10"
-                                Padding="12"
-                                Cursor="Hand">
-                            <Grid>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding TenCv}"
-                                               FontSize="18"
-                                               FontWeight="Bold"
-                                               Foreground="#2C8A8A"
-                                               Margin="0,0,0,8"/>
+                                CornerRadius="10">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="12"
+                                                  Opacity="0.12"
+                                                  ShadowDepth="3"
+                                                  Color="#B0B0B0" />
+                            </Border.Effect>
 
-                                    <TextBlock Text="{Binding MaCv, StringFormat='Mã CV: {0}'}"
-                                               Foreground="Gray"
-                                               FontSize="14"/>
-
-                                    <TextBlock Text="{Binding TrangThai, StringFormat='Trạng thái: {0}'}"
-                                               FontSize="13"
-                                               Margin="0,4,0,0"/>
-
-                                    <TextBlock Text="{Binding DoUuTien, StringFormat='Độ ưu tiên: {0}'}"
-                                               Foreground="#555"
-                                               FontSize="13"
-                                               Margin="0,4,0,0"/>
-
-                                    <TextBlock Text="{Binding HanHoanThanh, StringFormat='Hạn: {0:dd/MM/yyyy}'}"
-                                               Foreground="#555"
-                                               FontSize="13"
-                                               Margin="0,4,0,0"/>
-
-                                    <TextBlock Text="{Binding MaDuAnNavigation.TenDuAn, StringFormat='Dự án: {0}'}"
-                                               Foreground="#777"
-                                               FontSize="13"
-                                               Margin="0,4,0,0"/>
-
-                                    <TextBlock Text="{Binding MaNvphuTrachNavigation.MaNvNavigation.HoTen, StringFormat='Phụ trách: {0}'}"
-                                               Foreground="#444"
-                                               FontSize="13"
-                                               Margin="0,4,0,0"/>
-                                </StackPanel>
-
-                                <!-- Nút chức năng -->
-                                <StackPanel x:Name="ButtonPanel"
-                                            Orientation="Horizontal"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Bottom"
-                                            Margin="0,0,0,5"
-                                            Visibility="Collapsed">
-                                    <Button Content="👁 Xem"
-                                            Margin="5,0,0,0"
-                                            Padding="8,2"
-                                            FontSize="12"
-                                            Background="#2196F3"
-                                            Foreground="White"
-                                            BorderThickness="0"
-                                            Cursor="Hand"
-                                            Click="ViewTask_Click"/>
-
-                                    <Button Content="✏️ Sửa"
-                                            Margin="5,0,0,0"
-                                            Padding="8,2"
-                                            FontSize="12"
-                                            Background="#4CAF50"
-                                            Foreground="White"
-                                            BorderThickness="0"
-                                            Cursor="Hand"
-                                            Click="EditTask_Click"/>
-
-                                    <Button Content="🗑 Xóa"
-                                            Margin="5,0,0,0"
-                                            Padding="8,2"
-                                            FontSize="12"
-                                            Background="#E53935"
-                                            Foreground="White"
-                                            BorderThickness="0"
-                                            Cursor="Hand"
-                                            Click="DeleteTask_Click"/>
-                                </StackPanel>
-                            </Grid>
-
-                            <!-- Trigger hover -->
+                            <!-- Trigger Hover -->
                             <Border.Triggers>
                                 <EventTrigger RoutedEvent="MouseEnter">
                                     <BeginStoryboard>
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel"
-                                                                           Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0:0:0"
-                                                                        Value="{x:Static Visibility.Visible}"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ActionPanel" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
                                             </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Storyboard.TargetName="ActionPanel" Storyboard.TargetProperty="Opacity" To="0.98" Duration="0:0:0.2"/>
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger>
-
                                 <EventTrigger RoutedEvent="MouseLeave">
                                     <BeginStoryboard>
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel"
-                                                                           Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0:0:0"
-                                                                        Value="{x:Static Visibility.Collapsed}"/>
+                                            <DoubleAnimation Storyboard.TargetName="ActionPanel" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ActionPanel" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Collapsed}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger>
                             </Border.Triggers>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="6"/>
+                                    <!-- Dải màu đậm hơn -->
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- 1. DẢI MÀU TRẠNG THÁI (Binding theo MauTrangThai) -->
+                                <Border Grid.Column="0" 
+                                        Background="{Binding MauTrangThai}" 
+                                        CornerRadius="10,0,0,10"/>
+
+                                <!-- 2. NỘI DUNG -->
+                                <Grid Grid.Column="1" Margin="15,10,15,10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <!-- Hàng 0: Tên + Trạng thái -->
+                                        <RowDefinition Height="Auto"/>
+                                        <!-- Hàng 1: Mã -->
+                                        <RowDefinition Height="*"/>
+                                        <!-- Hàng 2: Mô tả (Co giãn) -->
+                                        <RowDefinition Height="Auto"/>
+                                        <!-- Hàng 3: Footer -->
+                                    </Grid.RowDefinitions>
+
+                                   <!-- Header: Tên & Trạng thái -->
+    <Grid Grid.Row="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Tên công việc (Cắt ngắn nếu dài) -->
+        <TextBlock Text="{Binding TenCv}" 
+                   FontSize="16" FontWeight="Bold" Foreground="#333" 
+                   TextTrimming="CharacterEllipsis" 
+                   ToolTip="{Binding TenCv}" VerticalAlignment="Center"/>
+
+        <!-- Trạng thái (Badge nằm đối diện) -->
+        <Border Grid.Column="1" Background="{Binding mauTrangThai}" CornerRadius="4" Padding="8,2" Margin="10,0,0,0" Opacity="0.9">
+            <TextBlock Text="{Binding trangThaiHienThi}" FontSize="11" FontWeight="Bold" Foreground="White"/>
+        </Border>
+    </Grid>
+
+                                     <!--Mã Công Việc--> 
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,2,0,5">
+                                        <TextBlock Text="#" FontSize="11" Foreground="#999"/>
+                                        <TextBlock Text="{Binding maHienThi}" 
+                                                   FontSize="11" FontWeight="SemiBold" 
+                                                   Foreground="#999"/>
+                                    </StackPanel>
+
+                                    <!-- Mô Tả (Mới thêm) -->
+                                    <TextBlock Text="{Binding MoTa}" 
+                                               Grid.Row="2"
+                                               FontSize="13" 
+                                               Foreground="#555" 
+                                               TextWrapping="Wrap"
+                                               TextTrimming="CharacterEllipsis"
+                                               VerticalAlignment="Top"/>
+
+                                    <!-- Footer: Thời hạn & Độ ưu tiên -->
+                                    <Grid Grid.Row="3" Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Thời hạn -->
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <TextBlock Text="📅 " FontSize="12" Foreground="#7F8C8D"/>
+                                            <TextBlock Text="{Binding HanHoanThanh, StringFormat='dd/MM/yyyy'}" 
+                                                       FontSize="13" FontWeight="SemiBold" Foreground="#E74C3C"
+                                                       Margin="5,0,0,0"/>
+                                        </StackPanel>
+
+                                        <!-- Nhãn Độ ưu tiên (Badge) -->
+                                        <Border Grid.Column="1" 
+                                        Background="{Binding MauNenDoUuTien}" 
+                                        CornerRadius="6" 
+                                        Padding="8,4">      
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="⚡ " FontSize="10" Foreground="{Binding mauDoUuTien}"/>
+                                                <TextBlock Text="{Binding DoUuTien}" 
+                                                   FontSize="11" FontWeight="Bold"/>      
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+                                </Grid>
+
+                                <!-- 3. OVERLAY NÚT THAO TÁC -->
+                                <Border x:Name="ActionPanel"
+                                        Grid.ColumnSpan="2"
+                                        Background="White"
+                                        CornerRadius="10"
+                                        Opacity="0"
+                                        Visibility="Collapsed">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Margin="0,0,0,10"
+                                                   HorizontalAlignment="Center"
+                                                   Foreground="Gray"
+                                                   Text="Thao tác" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <!-- Nút Xem -->
+                                            <Button Click="ViewWork_Click"
+                                                    Style="{StaticResource ActionButtonStyle}"
+                                                    Background="#29B6F6"
+                                                    ToolTip="Xem chi tiết">
+                                                <Path Data="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z"
+                                                      Fill="White" Height="16" Width="16" Stretch="Uniform"/>
+                                            </Button>
+
+                                            <!-- Nút Sửa -->
+                                            <Button Click="EditWork_Click"
+                                                    Style="{StaticResource ActionButtonStyle}"
+                                                    Background="#66BB6A"
+                                                    ToolTip="Sửa">
+                                                <Path Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"
+                                                      Fill="White" Height="14" Width="14" Stretch="Uniform"/>
+                                            </Button>
+
+                                            <!-- Nút Xóa -->
+                                            <Button Click="DeleteWork_Click"
+                                                    Style="{StaticResource ActionButtonStyle}"
+                                                    Background="#EF5350"
+                                                    ToolTip="Xóa">
+                                                <Path Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
+                                                      Fill="White" Height="14" Width="14" Stretch="Uniform"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
