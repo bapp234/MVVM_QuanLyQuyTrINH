@@ -87,5 +87,10 @@
                 </StackPanel>
             </Grid>
         </Border>
+        <Grid>
+            <Grid x:Name="LoadingGrid" Visibility="Collapsed" Background="#80000000">
+                <ProgressBar IsIndeterminate="True" Width="200" Height="20" BorderThickness="0" Foreground="#3AD19B"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

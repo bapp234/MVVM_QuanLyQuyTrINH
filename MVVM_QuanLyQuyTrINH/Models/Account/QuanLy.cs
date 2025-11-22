@@ -1,8 +1,7 @@
-﻿using MVVM_QuanLyQuyTrINH.Models.Account;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace MVVM_QuanLyQuyTrINH.Models.Project
+namespace MVVM_QuanLyQuyTrINH.Models.Account
 {
     public partial class QuanLy
     {

@@ -1,4 +1,5 @@
-﻿    using System;
+﻿using MVVM_QuanLyQuyTrINH.Models.Account;
+using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
@@ -21,26 +22,87 @@
         public partial class QuanLy : Page
         {
             private Frame _mainframe;
-            public QuanLy(Frame mainframe) 
+        private string _userRole;
+        public QuanLy(Frame mainframe)
+        {
+            InitializeComponent();
+            _mainframe = mainframe;
+
+            if (UserSession.CurrentUser != null)
             {
-                InitializeComponent();
-                _mainframe = mainframe;
+                string roleGoc = UserSession.CurrentUser.MaVaiTroNavigation?.TenVaiTro;
+
+                if (roleGoc == null)
+                {
+                    MessageBox.Show("LỖI: Không lấy được tên Role từ Database! (MaVaiTroNavigation bị null).\n\nHệ thống sẽ gán tạm là 'NhanVien'.");
+                    _userRole = "NhanVien";
+                }
+                else
+                {
+                    _userRole = roleGoc;
+                }
+            }
+            else
+            {
+                MessageBox.Show("LỖI: UserSession bị Null (Chưa đăng nhập hoặc mất phiên).");
+                _userRole = "NhanVien";
+            }
+
+            PhanQuyenGiaoDien();
         }
-            private void btnQuanLyNhanVien_Click(object sender, RoutedEventArgs e)
+
+        private void PhanQuyenGiaoDien()
+        {
+            gridMenuButtons.Visibility = Visibility.Visible;
+            btnPhanQuyen.Visibility = Visibility.Visible;
+            txtTitleNguoiDung.Text = "QUẢN LÝ NGƯỜI DÙNG";
+            txtDescNguoiDung.Text = "Quản lý thông tin người dùng.";
+
+            string roleCheck = _userRole.Trim().ToLower();
+
+            
+            switch (roleCheck)
             {
-                _mainframe.Navigate(new QuanLyNhanVien());
+                case "admin":
+                case "quantri":
+                    break;
+
+                case "quanly":
+                case "quản lý": 
+                case "manager":
+                    btnPhanQuyen.Visibility = Visibility.Collapsed;
+                    txtTitleNguoiDung.Text = "QUẢN LÝ NHÂN VIÊN";
+                    txtDescNguoiDung.Text = "Quản lý danh sách nhân viên.";
+                    break;
+
+                case "nhanvien":
+                case "nhân viên": 
+                case "staff":
+                case "user":
+                    gridMenuButtons.Visibility = Visibility.Collapsed;
+                    break;
+
+                default:
+                    MessageBox.Show($"CẢNH BÁO: Role '{roleCheck}' không khớp trường hợp nào -> Ẩn giao diện.");
+                    gridMenuButtons.Visibility = Visibility.Collapsed;
+                    break;
+            }
+        }
+        private void btnQuanLyNhanVien_Click(object sender, RoutedEventArgs e)
+            {
+            _mainframe.Navigate(new QuanLyNguoiDung());
         }
             private void btnPhanQuyen_Click(object sender, RoutedEventArgs e)
             {
                 _mainframe.Navigate(new PhanQuyen());
-        }
+            }
             private void btnQuanLyQuyTrinh_Click(object sender, RoutedEventArgs e)
             {
-                _mainframe.Navigate(new QuanLyQuyTrinh());
+                    _mainframe.Navigate(new QuanLyQuyTrinh());
             }
-          private void btnQuanLyCongViec_Click(object sender, RoutedEventArgs e)
+            private void btnQuanLyCongViec_Click(object sender, RoutedEventArgs e)
             {
-               _mainframe.Navigate(new QuanLyCongViec());
-        }
+                   _mainframe.Navigate(new QuanLyCongViec());
+            }
         }
     }

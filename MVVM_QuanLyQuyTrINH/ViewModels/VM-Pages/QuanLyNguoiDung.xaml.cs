@@ -20,37 +20,35 @@ using MVVM_QuanLyQuyTrINH.Views.Windows;
 using MVVM_QuanLyQuyTrINH.Models.Account;
 using Microsoft.EntityFrameworkCore;
 using MVVM_QuanLyQuyTrINH.Views.CRUD;
+using MVVM_QuanLyQuyTrINH.Services;
 namespace MVVM_QuanLyQuyTrINH.Views.Pages;
 
 
     /// <summary>
     /// Interaction logic for QuanLyNhanVien.xaml
     /// </summary>
-    public partial class QuanLyNhanVien : Page
+    public partial class QuanLyNguoiDung : Page
     {
-        private readonly QLQuyTrinhLamViecContext _context = new QLQuyTrinhLamViecContext();
+        private readonly UserService _userService = new UserService();
         private List<User> _user;
-        public QuanLyNhanVien()
+        public QuanLyNguoiDung()
         {
             InitializeComponent();
             LoadData();
         }
         private void LoadData()
         {
-            try
-            {
-                _user = _context.Users
-                    .Include(u => u.MaVaiTroNavigation)
-                    .Include(u => u.NhanVien)
-                    .Where(u => u.NhanVien != null)
-                    .ToList();
+        try
+        {
+            _user= _userService.GetAllUsers();
 
-                EmployeeList.ItemsSource = _user;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi tải dữ liệu: " + ex.Message);
-            }
+            EmployeeList.ItemsSource = _user;
+        }
+        catch (System.Exception ex)
+        {
+
+            MessageBox.Show("Không có dữ liệu: " + ex.Message);
+        }
         }
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -102,8 +100,7 @@ namespace MVVM_QuanLyQuyTrINH.Views.Pages;
         }
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            // Quay lại trang quản lý
-            NavigationService.GoBack();
+        if (NavigationService.CanGoBack) NavigationService.GoBack();
         }
         private void ViewEmployee_Click(object sender, RoutedEventArgs e)
         {
@@ -124,7 +121,7 @@ namespace MVVM_QuanLyQuyTrINH.Views.Pages;
 
             if (result == true)
             {
-                LoadData(); // Reload danh sách dự án
+                LoadData();
             }
         }
         private void EditEmployee_Click(object sender, RoutedEventArgs e)
@@ -141,6 +138,28 @@ namespace MVVM_QuanLyQuyTrINH.Views.Pages;
         }
         private void DeleteEmployee_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Bạn có muốn xóa nhân viên này không?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-        }
-    }
+            var button = sender as Button;
+            var user = button.DataContext as User;
+            if (user == null) return;
+            if(UserSession.CurrentUser != null && user.UserId == UserSession.CurrentUser.UserId)
+            {
+                MessageBox.Show("Bạn không thể xóa tài khoản đang được sử dụng để đăng nhập!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            var result = MessageBox.Show($"Bạn có chắc chắn muốn xóa tài khoản '{user.HoTen}' không?\nHành động này không thể hoàn tác.","Xác nhận xóa",MessageBoxButton.YesNo,MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                bool isDeleted = _userService.DeleteUser(user.UserId);
+
+                if (isDeleted)
+                {
+                    MessageBox.Show("Đã xóa thành công!", "Thông báo");
+                    LoadData();
+                }
+                else
+                {
+                    MessageBox.Show("Không thể xóa nhân viên này!", "Lỗi");
+                }
+            }
+     }
+}

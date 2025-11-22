@@ -1,4 +1,5 @@
-﻿using MVVM_QuanLyQuyTrINH.Services;
+﻿using MVVM_QuanLyQuyTrINH.Models.Account;
+using MVVM_QuanLyQuyTrINH.Services;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,40 +20,53 @@ public partial class LoginWindow : Window
     public LoginWindow()
     {
         InitializeComponent();
+        
     }
     private void Close_Click(object sender, RoutedEventArgs e)
     {
         Application.Current.Shutdown();
     }
 
-    private void Login_Click(object sender, RoutedEventArgs e)
+    private async void Login_Click(object sender, RoutedEventArgs e)
     {
 
         string userName = txtUserName.Text.Trim();
-        string password = pwdBox.Password;
+        string password = txtVisiblePassword.Visibility==Visibility.Visible?txtVisiblePassword.Text:pwdBox.Password;
 
         if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
         {
-            MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show("Tài khoản hoặc mật khẩu không chính xác", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
-        var user = authService.Login(userName, password);
-        if (user != null)
+        try 
         {
-            var mainWindow = new MainAppWindow(user);
-            new MainAppWindow(user).Show();
-            this.Close();
+            Mouse.OverrideCursor = Cursors.Wait;
+            var user = await authService.Login(userName,password); 
+            if (user != null)
+            {
+                UserSession.CurrentUser = user;
+                MainAppWindow mainAppWindow = new MainAppWindow(user);
+                mainAppWindow.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Tài khoản hoặc mật khẩu không chính xác", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("Đã xảy ra lỗi trong quá trình đăng nhập: " + ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        finally
+        {
+            Mouse.OverrideCursor = null;
         }
     }
     private void ForgotPassword_Click(object sender, RoutedEventArgs e)
     {
-        ForgotPassword fp = new ForgotPassword();
-        fp.Show();
-        this.Close();
+        string matKhauDaMaHoa = BCrypt.Net.BCrypt.HashPassword("1");
+        Clipboard.SetText(matKhauDaMaHoa);
     }
     private void TogglePassword_Click(object sender, RoutedEventArgs e)
     {
