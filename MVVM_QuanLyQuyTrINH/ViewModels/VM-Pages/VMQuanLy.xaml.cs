@@ -22,71 +22,10 @@ using System;
         public partial class QuanLy : Page
         {
             private Frame _mainframe;
-        private string _userRole;
-        public QuanLy(Frame mainframe)
-        {
-            InitializeComponent();
-            _mainframe = mainframe;
-
-            if (UserSession.CurrentUser != null)
+            public QuanLy(Frame mainframe) 
             {
-                string roleGoc = UserSession.CurrentUser.MaVaiTroNavigation?.TenVaiTro;
-
-                if (roleGoc == null)
-                {
-                    MessageBox.Show("LỖI: Không lấy được tên Role từ Database! (MaVaiTroNavigation bị null).\n\nHệ thống sẽ gán tạm là 'NhanVien'.");
-                    _userRole = "NhanVien";
-                }
-                else
-                {
-                    _userRole = roleGoc;
-                }
-            }
-            else
-            {
-                MessageBox.Show("LỖI: UserSession bị Null (Chưa đăng nhập hoặc mất phiên).");
-                _userRole = "NhanVien";
-            }
-
-            PhanQuyenGiaoDien();
-        }
-
-        private void PhanQuyenGiaoDien()
-        {
-            gridMenuButtons.Visibility = Visibility.Visible;
-            btnPhongBan.Visibility = Visibility.Visible;
-            txtTitleNguoiDung.Text = "QUẢN LÝ NGƯỜI DÙNG";
-            txtDescNguoiDung.Text = "Quản lý thông tin người dùng.";
-
-            string roleCheck = _userRole.Trim().ToLower();
-
-            
-            switch (roleCheck)
-            {
-                case "admin":
-                case "quantri":
-                    break;
-
-                case "quanly":
-                case "quản lý": 
-                case "manager":
-                    btnPhongBan.Visibility = Visibility.Collapsed;
-                    txtTitleNguoiDung.Text = "QUẢN LÝ NHÂN VIÊN";
-                    txtDescNguoiDung.Text = "Quản lý danh sách nhân viên.";
-                    break;
-
-                case "nhanvien":
-                case "nhân viên": 
-                case "staff":
-                case "user":
-                    gridMenuButtons.Visibility = Visibility.Collapsed;
-                    break;
-
-                default:
-                    MessageBox.Show($"CẢNH BÁO: Role '{roleCheck}' không khớp trường hợp nào -> Ẩn giao diện.");
-                    gridMenuButtons.Visibility = Visibility.Collapsed;
-                    break;
-            }
+                InitializeComponent();
+                _mainframe = mainframe;
         }
         private void btnQuanLyNhanVien_Click(object sender, RoutedEventArgs e)
             {
@@ -94,8 +33,8 @@ using System;
         }
             private void btnQuanLyPhongBan_Click(object sender, RoutedEventArgs e)
             {
-                _mainframe.Navigate(new PhongBan());
-            }
+                _mainframe.Navigate(new PhanQuyen());
+        }
             private void btnQuanLyQuyTrinh_Click(object sender, RoutedEventArgs e)
             {
                     _mainframe.Navigate(new QuanLyQuyTrinh());

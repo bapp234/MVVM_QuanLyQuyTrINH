@@ -12,7 +12,7 @@ namespace MVVM_QuanLyQuyTrINH.Services
     public class UserService
     {
         private readonly QLQuyTrinhLamViecContext db_context;
-
+        
         public UserService()
         {
             db_context = new QLQuyTrinhLamViecContext();
@@ -24,14 +24,13 @@ namespace MVVM_QuanLyQuyTrINH.Services
                                    .Include(u => u.NhanVien)
                                    .ToList();
         }
-
+        
         public bool AddUser(User user, string roleType, string Info)
         {
             using (var transaction = db_context.Database.BeginTransaction())
             {
                 try
                 {
-                    if (db_context.Users.Any(u => u.TenDangNhap == user.TenDangNhap))
                     {
                         return false;
                     }
@@ -78,19 +77,15 @@ namespace MVVM_QuanLyQuyTrINH.Services
 
         public bool DeleteUser(int userId)
         {
-            using (var transaction = db_context.Database.BeginTransaction())
-                try
-                {
-                    var user = db_context.Users.Include(u => u.Admin)
-                                               .Include(u => u.QuanLy)
-                                               .Include(u => u.NhanVien)
-                                               .FirstOrDefault(u => u.UserId == userId);
+            try
+            {
+                var user = db_context.Users.Include(u => u.Admin)
+                                           .Include(u => u.QuanLy)
+                                           .Include(u => u.NhanVien)
+                                           .FirstOrDefault(u => u.UserId == userId);
                     if (user == null) return false;
-                    if (user.NhanVien != null) db_context.NhanViens.Remove(user.NhanVien);
-                    if (user.QuanLy != null) db_context.QuanLies.Remove(user.QuanLy);
-                    if (user.Admin != null) db_context.Admins.Remove(user.Admin);
                     db_context.Users.Remove(user);
-                    db_context.SaveChanges();
+                db_context.SaveChanges();
                     int maxID = 0;
                     if (db_context.Users.Any())
                     {
@@ -100,12 +95,12 @@ namespace MVVM_QuanLyQuyTrINH.Services
                     db_context.Database.ExecuteSqlRaw(sqlResetIdentity);
                     transaction.Commit();
                     return true;
-                }
-                catch (Exception ex)
-                {
+            }
+            catch (Exception ex)
+            {
                     transaction.Rollback();
                     return false;
-                }
+            }
         }
 
         public bool IsEmailExists(string email, int id)
@@ -140,7 +135,7 @@ namespace MVVM_QuanLyQuyTrINH.Services
 
                     dbUser.HoTen = userToUpdate.HoTen;
                     dbUser.Email = userToUpdate.Email;
-                    dbUser.MaVaiTro = userToUpdate.MaVaiTro;
+                    dbUser.MaVaiTro = userToUpdate.MaVaiTro; 
 
                     if (!string.IsNullOrEmpty(newPassword))
                     {
@@ -164,14 +159,14 @@ namespace MVVM_QuanLyQuyTrINH.Services
                             if (dbUser.QuanLy == null)
                                 db_context.QuanLies.Add(new QuanLy { MaQl = dbUser.UserId, CapQuanLy = extraInfo });
                             else
-                                dbUser.QuanLy.CapQuanLy = extraInfo;
+                                dbUser.QuanLy.CapQuanLy = extraInfo; 
                             break;
 
-                        default:
+                        default: 
                             if (dbUser.NhanVien == null)
                                 db_context.NhanViens.Add(new NhanVien { MaNv = dbUser.UserId, MaPb = extraInfo });
                             else
-                                dbUser.NhanVien.MaPb = extraInfo;
+                                dbUser.NhanVien.MaPb = extraInfo; 
                             break;
                     }
 
@@ -190,7 +185,7 @@ namespace MVVM_QuanLyQuyTrINH.Services
         public int CountActiveTasks(int userId)
         {
             var nhanVien = db_context.NhanViens
-                                   .Include(nv => nv.CongViecs)
+                                   .Include(nv => nv.CongViecs) 
                                    .FirstOrDefault(nv => nv.MaNv == userId);
 
             if (nhanVien == null || nhanVien.CongViecs == null) return 0;

@@ -65,8 +65,9 @@ public partial class LoginWindow : Window
     }
     private void ForgotPassword_Click(object sender, RoutedEventArgs e)
     {
-        string matKhauDaMaHoa = BCrypt.Net.BCrypt.HashPassword("1");
-        Clipboard.SetText(matKhauDaMaHoa);
+        ForgotPassword fp = new ForgotPassword();
+        fp.Show();
+        this.Close();
     }
     private void TogglePassword_Click(object sender, RoutedEventArgs e)
     {

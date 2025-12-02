@@ -71,62 +71,50 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Margin="40,30,0,20">
-            <TextBlock Text="Trung Tâm Quản Lý"
-                       Foreground="#3AA0AD"
-                       FontSize="28"
-                       FontWeight="Bold"/>
-        </StackPanel>
+        <!-- ===== TIÊU ĐỀ ===== -->
+        <TextBlock Text="Quản Lý"
+                   Foreground="#3AA0AD"
+                   FontSize="26"
+                   FontWeight="Bold"
+                   Margin="30,30,0,20"/>
 
-        <UniformGrid Grid.Row="1" Columns="2" Rows="2" Margin="30,0,30,30" x:Name="gridMenuButtons">
+        <!-- ===== MENU BUTTON GROUP ===== -->
+        <Grid Grid.Row="1" Margin="0,20,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-            <Button x:Name="btnQuyTrinh" Style="{StaticResource DashboardCardStyle}" Click="btnQuanLyQuyTrinh_Click">
-                <StackPanel VerticalAlignment="Center">
-                    <Path Data="M4,4H8V8H4V4M10,4H14V8H10V4M16,4H20V8H16V4M4,10H8V14H4V10M10,10H14V14H10V10M16,10H20V14H16V10M4,16H8V20H4V16M10,16H14V20H10V16M16,16H20V20H16V16Z" 
-                  Fill="#3AA0AD" Height="50" Width="50" Stretch="Uniform" HorizontalAlignment="Center"/>
-                    <TextBlock Text="QUY TRÌNH LÀM VIỆC" Style="{StaticResource CardTitleText}"/>
-                    <TextBlock Text="Thiết lập luồng, các bước thực hiện và tiến độ dự án." Style="{StaticResource CardDescText}"/>
-                </StackPanel>
-            </Button>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-            <Button x:Name="btnCongViec" Style="{StaticResource DashboardCardStyle}" Click="btnQuanLyCongViec_Click">
-                <StackPanel VerticalAlignment="Center">
-                    <Path Data="M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M7,7H17V9H7V7M7,11H17V13H7V11M7,15H14V17H7V15Z" 
-                  Fill="#FF7043" Height="50" Width="50" Stretch="Uniform" HorizontalAlignment="Center"/>
-                    <TextBlock Text="CÔNG VIỆC" Style="{StaticResource CardTitleText}" Foreground="#FF7043"/>
-                    <TextBlock Text="Phân công, theo dõi trạng thái công việc." Style="{StaticResource CardDescText}"/>
-                </StackPanel>
-            </Button>
+            <!-- === Hàng 1: 3 nút === -->
+            <Button Content="Quản Lý Quy Trình"
+            Style="{StaticResource NavigationButtonStyle}"
+            Grid.Row="0" Grid.Column="0"
+            Margin="10"
+            Click="btnQuanLyQuyTrinh_Click"/>
 
-            <Button x:Name="btnNguoiDung" Style="{StaticResource DashboardCardStyle}" Click="btnQuanLyNhanVien_Click">
-                <StackPanel VerticalAlignment="Center">
-                    <Path Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" 
-                  Fill="#66BB6A" Height="50" Width="50" Stretch="Uniform" HorizontalAlignment="Center"/>
+            <Button Content="Quản Lý Công Việc"
+            Style="{StaticResource NavigationButtonStyle}"
+            Grid.Row="0" Grid.Column="1"
+            Margin="10"
+            Click="btnQuanLyCongViec_Click"/>
 
-                    <TextBlock x:Name="txtTitleNguoiDung" Text="QUẢN LÝ NGƯỜI DÙNG" Style="{StaticResource CardTitleText}" Foreground="#66BB6A"/>
-                    <TextBlock x:Name="txtDescNguoiDung" Text="Quản lý thông tin người dùng." Style="{StaticResource CardDescText}"/>
-                </StackPanel>
-            </Button>
+            <Button Content="Quản Lý Nhân Viên"
+            Style="{StaticResource NavigationButtonStyle}"
+            Grid.Row="1" Grid.Column="0"
+            Margin="10"
+            Click="btnQuanLyNhanVien_Click"/>
 
-            <Button x:Name="btnPhongBan" 
-        Style="{StaticResource DashboardCardStyle}" 
-        Click="btnQuanLyPhongBan_Click">
-                <StackPanel VerticalAlignment="Center">
-                    <Path Data="M18,15H16V17H18M18,11H16V13H18M20,19H12V17H14V15H12V13H14V11H12V9H20M10,7H8V5H10M10,11H8V9H10M10,15H8V13H10M10,19H8V17H10M6,7H4V5H6M6,11H4V9H6M6,15H4V13H6M6,19H4V17H6M12,7V3H2V21H22V7H12Z"
-              Fill="#42A5F5" 
-              Height="50" 
-              Width="50" 
-              Stretch="Uniform" 
-              HorizontalAlignment="Center"/>
+            <Button Content="Phân Quyền"
+            Style="{StaticResource NavigationButtonStyle}"
+            Grid.Row="1" Grid.Column="1"
+            Margin="10"
+            Click="btnPhanQuyen_Click"/>
 
-                    <TextBlock Text="QUẢN LÝ PHÒNG BAN" 
-                   Style="{StaticResource CardTitleText}" 
-                   Foreground="#42A5F5"/>
-
-                    <TextBlock Text="Quản lý cơ cấu tổ chức và các bộ phận." 
-                   Style="{StaticResource CardDescText}"/>
-                </StackPanel>
-            </Button>
-        </UniformGrid>
+        </Grid>
     </Grid>
 </Page>

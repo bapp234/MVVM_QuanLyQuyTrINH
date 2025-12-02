@@ -157,22 +157,47 @@
 
                 <!-- ==== LỊCH ==== -->
                 <Border Background="White" CornerRadius="12"
-                    Padding="15" Margin="0 0 0 25"
-                    BorderBrush="#3AA0AD" BorderThickness="1"
-                    Effect="{DynamicResource DropShadow}">
+        Padding="18" Margin="0 0 0 25"
+        BorderBrush="#FF8C00" BorderThickness="1"
+        Effect="{DynamicResource DropShadow}">
                     <StackPanel>
-                        <TextBlock Text="📅 Lịch làm việc"
-                               FontSize="20"
-                               FontWeight="SemiBold"
-                               Foreground="#2C8A8A"
-                               Margin="0 0 0 10"/>
+                        <DockPanel Margin="0 0 0 15" LastChildFill="False">
+                            <TextBlock Text="🔥 Sắp đến hạn"
+                       FontSize="20" FontWeight="SemiBold"
+                       Foreground="#E65100" VerticalAlignment="Center"/>
+                            <TextBlock Text="Xem tất cả" 
+                       FontSize="13" Foreground="#3AA0AD" 
+                       VerticalAlignment="Bottom" DockPanel.Dock="Right" Cursor="Hand"/>
+                        </DockPanel>
 
-                        <Calendar BorderBrush="#3AA0AD"
-                              BorderThickness="1"
-                              Margin="0,5,0,0" Height="200" Width="200"/>
+                        <ItemsControl ItemsSource="{Binding DanhSachSapDenHan}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#FFF3E0" CornerRadius="8" Padding="12,10" Margin="0,0,0,10">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Grid.Column="0">
+                                                <TextBlock Text="{Binding TenCV}" FontWeight="Bold" Foreground="#BF360C" TextTrimming="CharacterEllipsis"/>
+                                                <TextBlock Text="{Binding TenDuAn}" FontSize="12" Foreground="#EF6C00" Margin="0,2,0,0"/>
+                                            </StackPanel>
+
+                                            <Border Grid.Column="1" Background="White" CornerRadius="6" Padding="8,4" Margin="10,0,0,0">
+                                                <StackPanel HorizontalAlignment="Center">
+                                                    <TextBlock Text="{Binding HanHoanThanh, StringFormat='dd/MM'}" FontSize="11" FontWeight="Bold" Foreground="#E65100" HorizontalAlignment="Center"/>
+                                                    <TextBlock Text="Hết hạn" FontSize="9" Foreground="Gray" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </StackPanel>
                 </Border>
-
                 <!-- ====  CARD DỰ ÁN MỚI NHẤT ==== -->
                 <Border Background="White" CornerRadius="12"
                     Padding="18"

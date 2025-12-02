@@ -23,25 +23,5 @@ namespace MVVM_QuanLyQuyTrINH.Models.Account
         {
             MatKhau = BCrypt.Net.BCrypt.HashPassword(password);
         }
-        [NotMapped]
-        public string RoleName
-        {
-            get
-            {
-                return MaVaiTroNavigation?.TenVaiTro ?? "Unknown";
-            }
-        }
-
-        [NotMapped]
-        public string idToString
-        {
-            get
-            {
-                string fsID = "NV";
-                if(MaVaiTro==1) fsID="AD";
-                else if(MaVaiTro==2) fsID = "QL";
-                return $"{fsID}{UserId.ToString("D4")}";
-            }
-        }
     }
 }
