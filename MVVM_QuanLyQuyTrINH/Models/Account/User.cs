@@ -18,10 +18,29 @@ namespace MVVM_QuanLyQuyTrINH.Models.Account
         public virtual Admin? Admin { get; set; }
         public virtual NhanVien? NhanVien { get; set; }
         public virtual QuanLy? QuanLy { get; set; }
-
         public void SetPassword(string password)
         {
             MatKhau = BCrypt.Net.BCrypt.HashPassword(password);
+        }
+        [NotMapped]
+        public string RoleName
+        {
+            get
+            {
+                return MaVaiTroNavigation?.TenVaiTro ?? "Unknown";
+            }
+        }
+
+        [NotMapped]
+        public string idToString
+        {
+            get
+            {
+                string fsID = "NV";
+                if (MaVaiTro == 1) fsID = "AD";
+                else if (MaVaiTro == 2) fsID = "QL";
+                return $"{fsID}{UserId.ToString("D4")}";
+            }
         }
     }
 }

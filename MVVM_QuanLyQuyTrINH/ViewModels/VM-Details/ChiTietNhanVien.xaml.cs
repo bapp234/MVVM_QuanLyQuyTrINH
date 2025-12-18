@@ -30,10 +30,9 @@ namespace MVVM_QuanLyQuyTrINH.Views.Details
             {
                 if (nv.NhanVien != null)
                 {
-                    // Lấy danh sách công việc mà nhân viên này phụ trách
-                    var congViecs = _context.CongViecs
-                                            .Where(c => c.MaNvphuTrach == nv.NhanVien.MaNv)
-                                            .Select(c => new { c.TenCv, c.TrangThai })
+                    var congViecs = _context.PhanCongs
+                                            .Where(c => c.MaNv == nv.NhanVien.MaNv)
+                                            .Select(c => new { c.MaCvNavigation.TenCv, c.MaCvNavigation.TrangThai })
                                             .ToList();
 
                     ListViewCongViecs.ItemsSource = congViecs;

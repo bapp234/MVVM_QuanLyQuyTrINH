@@ -1,4 +1,4 @@
-﻿using MVVM_QuanLyQuyTrINH.Models.Account;
+﻿        using MVVM_QuanLyQuyTrINH.Models.Account;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,8 +22,7 @@ namespace MVVM_QuanLyQuyTrINH.Models.Project
         public DateTime? NgayKetThuc { get; set; }
         public int? MaTruongNhom { get; set; }
         public string? TrangThai { get; set; }
-
-        public virtual NhanVien? MaTruongNhomNavigation { get; set; }
+        public virtual QuanLy? MaTruongNhomNavigation { get; set; }
         public virtual ICollection<BaoCaoDuAn> BaoCaoDuAns { get; set; }
         public virtual ICollection<CongViec> CongViecs { get; set; }
         public virtual ICollection<QuyTrinh> QuyTrinhs { get; set; }
@@ -31,7 +30,7 @@ namespace MVVM_QuanLyQuyTrINH.Models.Project
         [NotMapped]
         public string MaHienThi => $"QT{MaDuAn:D3}";
         [NotMapped]
-        public string TenTruongNhom => MaTruongNhomNavigation?.MaNvNavigation?.HoTen ?? "Chưa có trưởng nhóm";
+        public string TenTruongNhom => MaTruongNhomNavigation?.MaQlNavigation?.HoTen ?? "Chưa có trưởng nhóm";
         [NotMapped]
         public int SoLuongCongViec => CongViecs?.Count ?? 0;
         [NotMapped]
@@ -51,6 +50,38 @@ namespace MVVM_QuanLyQuyTrINH.Models.Project
                     //case "Đã hủy": return "#616161";
                     default: return "#90A4AE";
                 }
+            }
+        }
+        public string TinhTrangThoiGian
+        {
+            get
+            {
+                if ( NgayKetThuc== null) return "Không có hạn";
+
+                int days = (NgayKetThuc.Value - DateTime.Now).Days;
+
+                if (days > 0)
+                    return $"Còn {days} ngày";
+
+                if (days == 0)
+                    return "Hạn hôm nay";
+
+                return $"Quá hạn {Math.Abs(days)} ngày";
+            }
+        }
+
+        public string MauTinhTrangThoiGian
+        {
+            get
+            {
+                if (NgayKetThuc == null) return "#555"; // xám
+
+                int days = (NgayKetThuc.Value - DateTime.Now).Days;
+
+                if (days > 3) return "#2E7D32";   // xanh lá
+                if (days >= 1) return "#F9A825";  // vàng
+                if (days == 0) return "#E65100";  // cam
+                return "#C62828";                 // đỏ
             }
         }
     }

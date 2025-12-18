@@ -6,7 +6,8 @@
         WindowStartupLocation="CenterScreen"
         AllowsTransparency="True" 
         Background="Transparent"
-        WindowStyle="None">
+        WindowStyle="None"
+        Loaded="Window_Loaded">
 
     <Border CornerRadius="12" BorderBrush="#3AA0AD" BorderThickness="1" Background="White">
         <Border.Effect>
@@ -34,18 +35,18 @@
                 <StackPanel Margin="0,0,5,0">
 
                     <!-- 1. DỰ ÁN (READ ONLY - KHÔNG CHO SỬA) -->
-                    <TextBlock Text="Thuộc Dự án (Không thể thay đổi):" FontWeight="SemiBold" Foreground="Gray"/>
+                    <TextBlock Text="Thuộc Dự án (Không thể thay đổi)" FontWeight="SemiBold" Foreground="Gray"/>
                     <TextBox Text="{Binding CongViec.MaDuAnNavigation.TenDuAn}" 
                              Height="35" Margin="0,5,0,15" Padding="5"
                              Background="#F5F5F5" Foreground="Gray" BorderBrush="#DDD"
                              IsReadOnly="True" IsEnabled="False" FontWeight="Bold"/>
 
                     <!-- 2. TÊN CÔNG VIỆC -->
-                    <TextBlock Text="Tên công việc *:" FontWeight="SemiBold" Foreground="#333"/>
+                    <TextBlock Text="Tên công việc" FontWeight="SemiBold" Foreground="#333"/>
                     <TextBox Text="{Binding CongViec.TenCv}" Height="35" Margin="0,5,0,15" Padding="5" BorderBrush="#DDD"/>
 
                     <!-- 3. MÔ TẢ -->
-                    <TextBlock Text="Mô tả chi tiết:" FontWeight="SemiBold" Foreground="#333"/>
+                    <TextBlock Text="Mô tả chi tiết" FontWeight="SemiBold" Foreground="#333"/>
                     <TextBox Text="{Binding CongViec.MoTa}" Height="70" Margin="0,5,0,15" Padding="5" 
                              BorderBrush="#DDD" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
 
@@ -58,12 +59,12 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="Ngày bắt đầu:" FontWeight="SemiBold" Foreground="#333"/>
+                            <TextBlock Text="Ngày bắt đầu" FontWeight="SemiBold" Foreground="#333"/>
                             <DatePicker SelectedDate="{Binding CongViec.NgayGiao}" Height="35" Margin="0,5,0,0"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="2">
-                            <TextBlock Text="Hạn hoàn thành:" FontWeight="SemiBold" Foreground="#333"/>
+                            <TextBlock Text="Hạn hoàn thành" FontWeight="SemiBold" Foreground="#333"/>
                             <DatePicker SelectedDate="{Binding CongViec.HanHoanThanh}" Height="35" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Grid>
@@ -77,7 +78,7 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="Trạng thái:" FontWeight="SemiBold" Foreground="#333"/>
+                            <TextBlock Text="Trạng thái" FontWeight="SemiBold" Foreground="#333"/>
                             <ComboBox SelectedValue="{Binding CongViec.TrangThai}" Height="35" Margin="0,5,0,0" SelectedValuePath="Content">
                                 <ComboBoxItem Content="Mới tạo"/>
                                 <ComboBoxItem Content="Đang thực hiện"/>
@@ -87,7 +88,7 @@
                         </StackPanel>
 
                         <StackPanel Grid.Column="2">
-                            <TextBlock Text="Độ ưu tiên:" FontWeight="SemiBold" Foreground="#333"/>
+                            <TextBlock Text="Độ ưu tiên" FontWeight="SemiBold" Foreground="#333"/>
                             <ComboBox SelectedValue="{Binding CongViec.DoUuTien}" Height="35" Margin="0,5,0,0" SelectedValuePath="Content">
                                 <ComboBoxItem Content="Thấp"/>
                                 <ComboBoxItem Content="Trung bình"/>
@@ -97,14 +98,27 @@
                         </StackPanel>
                     </Grid>
 
-                    <!-- 6. NGƯỜI PHỤ TRÁCH -->
-                    <TextBlock Text="Nhân viên phụ trách:" FontWeight="SemiBold" Foreground="#333"/>
-                    <ComboBox ItemsSource="{Binding DanhSachNhanVien}"
-                              SelectedValue="{Binding CongViec.MaNvphuTrach}"
-                              DisplayMemberPath="MaNvNavigation.HoTen"
-                              SelectedValuePath="MaNv"
-                              Height="35" Margin="0,5,0,15" Padding="5"/>
-
+                    <!-- Nhân viên tham gia --> 
+                    <TextBlock Text="Nhân viên tham gia"
+           FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
+                    <Border BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="6" Background="White" Padding="8">
+                        <ListBox x:Name="lbNhanVien"
+             ItemsSource="{Binding DanhSachNhanVien}"
+             SelectionMode="Multiple"
+             BorderThickness="0"
+             Height="160">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding MaNvNavigation.HoTen}"
+                          Tag="{Binding MaNv}"
+                          IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected, Mode=TwoWay}"
+                          FontSize="14"
+                          Margin="4"
+                          Cursor="Hand" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Border>
                 </StackPanel>
             </ScrollViewer>
 

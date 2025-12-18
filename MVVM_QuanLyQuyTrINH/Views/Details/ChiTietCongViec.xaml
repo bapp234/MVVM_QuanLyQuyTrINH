@@ -11,8 +11,7 @@
         AllowsTransparency="True"
         Background="#01FFFFFF" 
         mc:Ignorable="d">
-    <!-- Background gần trong suốt để bắt sự kiện click đóng cửa sổ -->
-
+  
     <Border Margin="20" CornerRadius="12" Background="White" BorderBrush="#E0E0E0" BorderThickness="1">
         <Border.Effect>
             <DropShadowEffect BlurRadius="25" Opacity="0.3" ShadowDepth="5" Color="Gray"/>
@@ -83,19 +82,9 @@
 
                             <!-- Dự án -->
                             <TextBlock Text="THUỘC DỰ ÁN" FontSize="11" Foreground="Gray" FontWeight="SemiBold"/>
-                            <TextBlock Text="{Binding CongViec.TenDuAn}" FontSize="14" Foreground="#37474F" 
-                                       TextWrapping="Wrap" Margin="0,2,0,15" FontWeight="Medium"/>
-                        </StackPanel>
-
-                        <!-- Cột Phải -->
-                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                            <!-- Người phụ trách -->
-                            <TextBlock Text="NGƯỜI PHỤ TRÁCH" FontSize="11" Foreground="Gray" FontWeight="SemiBold"/>
-                            <StackPanel Orientation="Horizontal" Margin="0,2,0,15">
-                                <TextBlock Text="👤 " FontSize="14"/>
-                                <TextBlock Text="{Binding TenNhanVienPhuTrach}" FontSize="15" Foreground="#3AA0AD" FontWeight="Bold"/>
-                            </StackPanel>
-
+                            <TextBlock Text="{Binding CongViec.MaDuAnNavigation.TenDuAn}" FontSize="14"
+                                                    Height="35" Margin="0,5,0,15" Padding="5"
+                                                     FontWeight="Bold"/>
                             <!-- Thời gian -->
                             <TextBlock Text="THỜI GIAN THỰC HIỆN" FontSize="11" Foreground="Gray" FontWeight="SemiBold"/>
                             <StackPanel Margin="0,2,0,15">
@@ -106,9 +95,49 @@
                                 <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
                                     <TextBlock Text="Hạn chót: " Foreground="Gray"/>
                                     <TextBlock Text="{Binding CongViec.HanHoanThanh, StringFormat='dd/MM/yyyy'}" 
-                                               FontWeight="Bold" Foreground="#E53935"/>
+                    FontWeight="Bold" Foreground="#E53935"/>
                                 </StackPanel>
                             </StackPanel>
+                        </StackPanel>
+
+                        <!-- Cột Phải -->
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                            <!-- Trưởng nhóm dự án -->
+                            <TextBlock Text="TRƯỞNG NHÓM DỰ ÁN" FontSize="11" Foreground="Gray" FontWeight="SemiBold"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,2,0,15">
+                                <TextBlock Text="👑 " FontSize="14"/>
+                                <TextBlock Text="{Binding TenTruongNhom}" 
+                                    FontSize="15" Foreground="#8E44AD" FontWeight="Bold"/>
+                            </StackPanel>
+                            <!-- DANH SÁCH NHÂN VIÊN THAM GIA -->
+                            <TextBlock Text="NHÂN VIÊN THAM GIA" 
+           FontSize="11" Foreground="Gray" FontWeight="SemiBold" Margin="0,0,0,5"/>
+
+                            <Border BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Margin="0,0,0,20">
+                                <ListView ItemsSource="{Binding DanhSachThamGia}" BorderThickness="0" Height="150">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="30"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <!-- Avatar circle -->
+                                                <Border Grid.Column="0" Width="26" Height="26" CornerRadius="13"
+                            Background="#3AA0AD" VerticalAlignment="Center">
+                                                    <TextBlock Text="👤" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" FontSize="14"/>
+                                                </Border>
+
+                                                <!-- Tên nhân viên -->
+                                                <TextBlock Grid.Column="1" Text="{Binding}" FontSize="14"
+                               VerticalAlignment="Center" Foreground="#455A64"
+                               Margin="10,0,0,0"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Border>
                         </StackPanel>
                     </Grid>
 

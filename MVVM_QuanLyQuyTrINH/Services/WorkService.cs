@@ -20,12 +20,45 @@ namespace MVVM_QuanLyQuyTrINH.Services
 
         public List<CongViec> GetCongViecs()
         {
-            return db_context.CongViecs.AsNoTracking()
-                 .Include(cv => cv.MaDuAnNavigation)
-                 .Include(cv => cv.MaNvphuTrachNavigation)
-                     .ThenInclude(nv => nv.MaNvNavigation)
-                 .OrderByDescending(cv => cv.NgayGiao)
-                 .ToList();
+            return db_context.CongViecs
+        .AsNoTracking()
+        .Include(cv => cv.MaDuAnNavigation)
+        .Include(cv => cv.PhanCongs)
+            .ThenInclude(pc => pc.MaNvNavigation)
+                .ThenInclude(nv => nv.MaNvNavigation)
+        .OrderByDescending(cv => cv.NgayGiao)
+        .ToList();
+        }
+        public CongViec GetChiTietCongViec(int id)
+        {
+            return db_context.CongViecs
+                .Include(c => c.MaDuAnNavigation)
+                    .ThenInclude(d => d.MaTruongNhomNavigation)
+                        .ThenInclude(q => q.MaQlNavigation)
+                .Include(c => c.PhanCongs)
+                    .ThenInclude(pc => pc.MaNvNavigation)
+                        .ThenInclude(nv => nv.MaNvNavigation)
+                .Include(c => c.LichSuCongViecs)
+                    .ThenInclude(ls => ls.MaNvNavigation)
+                        .ThenInclude(nv => nv.MaNvNavigation)
+                .FirstOrDefault(c => c.MaCv == id);
+        }
+        public string GetTenTruongNhom(CongViec cv)
+        {
+            return cv.MaDuAnNavigation?
+                     .MaTruongNhomNavigation?
+                     .MaQlNavigation?
+                     .HoTen ?? "Chưa có trưởng nhóm";
+        }
+        public List<string> GetDanhSachNhanVienThamGia(CongViec cv)
+        {
+            if (cv == null || cv.PhanCongs == null || cv.PhanCongs.Count == 0)
+                return new List<string>();
+
+            return cv.PhanCongs
+                     .Where(pc => pc.MaNvNavigation?.MaNvNavigation != null)
+                     .Select(pc => pc.MaNvNavigation.MaNvNavigation.HoTen)
+                     .ToList();
         }
         public bool Add(CongViec congViec)
         {
@@ -78,9 +111,12 @@ namespace MVVM_QuanLyQuyTrINH.Services
         public CongViec GetById(int id)
         {
             return db_context.CongViecs
-                .Include(cv => cv.MaDuAnNavigation)
-                .Include(cv => cv.MaNvphuTrachNavigation)
-                .FirstOrDefault(cv => cv.MaCv == id);
+        .Include(cv => cv.MaDuAnNavigation)
+
+        .Include(cv => cv.PhanCongs)
+            .ThenInclude(pc => pc.MaNvNavigation)
+
+        .FirstOrDefault(cv => cv.MaCv == id);
         }
         public bool Update(CongViec congViec)
         {
@@ -95,5 +131,18 @@ namespace MVVM_QuanLyQuyTrINH.Services
                 return false;
             }
         }
+        public void addNhanVien(int maCv, List<int> dsNhanVien)
+        {
+            foreach (var maNv in dsNhanVien)
+            {
+                db_context.PhanCongs.Add(new PhanCong
+                {
+                    MaCv = maCv,
+                    MaNv = maNv
+                });
+            }
+            db_context.SaveChanges();
+        }
+
     }
 }

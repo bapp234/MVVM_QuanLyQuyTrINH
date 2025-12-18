@@ -21,11 +21,9 @@ namespace MVVM_QuanLyQuyTrINH.Models.Project
         public DateTime? HanHoanThanh { get; set; }
         public string? TrangThai { get; set; }
         public int MaDuAn { get; set; }
-        public int? MaNvphuTrach { get; set; }
         public string? DoUuTien { get; set; }
 
         public virtual DuAn MaDuAnNavigation { get; set; } = null!;
-        public virtual NhanVien? MaNvphuTrachNavigation { get; set; }
         public virtual ICollection<LichSuCongViec> LichSuCongViecs { get; set; }
         public virtual ICollection<PhanCong> PhanCongs { get; set; }
 
@@ -35,15 +33,6 @@ namespace MVVM_QuanLyQuyTrINH.Models.Project
             get
             {
                 return $"{MaCv:D3}";
-            }
-        }
-
-        [NotMapped]
-        public string tenNguoiPhuTrach
-        {
-            get
-            {
-                return MaNvphuTrachNavigation?.MaNvNavigation?.HoTen ?? "Chưa có nhân viên phụ trách";
             }
         }
 

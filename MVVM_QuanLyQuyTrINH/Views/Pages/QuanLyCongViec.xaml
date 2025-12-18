@@ -172,8 +172,8 @@
                     <ComboBox x:Name="cbSort" Width="160" Height="45" 
                       Style="{StaticResource FilterComboBoxStyle}" 
                       SelectedIndex="0" SelectionChanged="cbSort_SelectionChanged">
-                        <ComboBoxItem Content="Mới nhất trước" Tag="DateDesc"/>
-                        <ComboBoxItem Content="Cũ nhất trước" Tag="DateAsc"/>
+                        <ComboBoxItem Content="Mới nhất" Tag="DateDesc"/>
+                        <ComboBoxItem Content="Cũ nhất" Tag="DateAsc"/>
                         <ComboBoxItem Content="Tên A-Z" Tag="NameAsc"/>
                         <ComboBoxItem Content="Tên Z-A" Tag="NameDesc"/>
                         <ComboBoxItem Content="Ưu tiên cao nhất" Tag="Priority"/>

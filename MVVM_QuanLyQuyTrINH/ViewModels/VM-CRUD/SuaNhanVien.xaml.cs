@@ -41,7 +41,7 @@ namespace MVVM_QuanLyQuyTrINH.Views.CRUD
         private void LoadDataToForm()
         {
             if (_currentUser == null) return;
-            txtUserId.Text = _currentUser.idToString;
+            txtUserId.Text = _currentUser.UserId.ToString();
             txtHoTen.Text = _currentUser.HoTen;
             txtEmail.Text = _currentUser.Email;
             foreach (ComboBoxItem item in cbVaiTro.Items)
@@ -137,15 +137,30 @@ namespace MVVM_QuanLyQuyTrINH.Views.CRUD
             if (isChangingRoleOrDept)
             {
                 int activeTasks = _userService.CountActiveTasks(_currentUser.UserId);
+
                 if (activeTasks > 0)
                 {
-                    var confirm = MessageBox.Show(
-                        $"Nhân viên này đang có {activeTasks} công việc chưa hoàn thành.\nViệc thay đổi vị trí có thể ảnh hưởng đến tiến độ dự án.\n\nBạn có chắc chắn muốn tiếp tục?",
-                        "Cảnh báo quy trình", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    var ask = MessageBox.Show(
+                        $"Nhân viên đang có {activeTasks} công việc chưa hoàn thành.\n" +
+                        "Bạn có muốn gỡ phân công trước khi đổi vai trò không?",
+                        "Xác nhận",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Warning);
 
-                    if (confirm == MessageBoxResult.No) return;
+                    if (ask == MessageBoxResult.No)
+                        return;
+
+                    var popup = new GoCongViec(_currentUser.UserId)
+                    {
+                        Owner = this
+                    };
+
+                    bool? popupResult = popup.ShowDialog();
+                    if (popupResult != true)
+                        return; // ❌ không gỡ → chặn đổi role
                 }
             }
+
             _currentUser.HoTen = txtHoTen.Text.Trim();
             _currentUser.Email = txtEmail.Text.Trim();
             _currentUser.MaVaiTro = newRoleId;

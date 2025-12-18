@@ -41,14 +41,16 @@ namespace MVVM_QuanLyQuyTrINH.Views.Windows
                 var listDuAn = _context.DuAns.ToList();
                 cbDuAn.ItemsSource = listDuAn;
                 var listNhanVien = _context.NhanViens
-                    .Include(nv => nv.MaNvNavigation)
-                    .Select(nv => new
-                    {
-                        MaNv = nv.MaNv,
-                        HoTen = nv.MaNvNavigation.HoTen
-                    })
-                    .ToList();
-                cbNhanVienPhuTrach.ItemsSource = listNhanVien;
+               .Include(nv => nv.MaNvNavigation)
+               .Select(nv => new
+               {
+                   MaNv = nv.MaNv,
+                   HoTen = nv.MaNvNavigation.HoTen
+               })
+               .ToList();
+
+                icNhanVien.ItemsSource = listNhanVien;
+
             }
             catch (Exception ex)
             {
@@ -93,24 +95,34 @@ namespace MVVM_QuanLyQuyTrINH.Views.Windows
                 {
                     TenCv = txtTenCv.Text.Trim(),
                     MoTa = txtMoTa.Text?.Trim(),
-
                     NgayGiao = dpNgayGiao.SelectedDate,
                     HanHoanThanh = dpHanHoanThanh.SelectedDate,
                     TrangThai = (cbTrangThai.SelectedItem as ComboBoxItem)?.Content.ToString(),
                     DoUuTien = (cbDoUuTien.SelectedItem as ComboBoxItem)?.Content.ToString(),
                     MaDuAn = (int)cbDuAn.SelectedValue,
-                    MaNvphuTrach = cbNhanVienPhuTrach.SelectedValue as int?,
                 };
-                if (_db_Work.Add(newJob))
+                bool ok = _db_Work.Add(newJob);
+                if (!ok)
                 {
-                    MessageBox.Show("Thêm công việc thành công!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
-                    this.DialogResult = true;
-                    this.Close();
+                    MessageBox.Show("Thêm công việc thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
-                else
-                {
-                    MessageBox.Show("Thêm thất bại! Vui lòng thử lại.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                int maCvMoi = newJob.MaCv;
+                var dsThem = icNhanVien.Items
+                    .Cast<dynamic>()
+                     .Where(item =>
+                     {
+                         var container = icNhanVien.ItemContainerGenerator.ContainerFromItem(item) as FrameworkElement;
+                         var chk = container?.FindName("checkBox") as CheckBox;
+                         return chk != null && chk.IsChecked == true;
+                     })
+                     .Select(item => (int)item.MaNv)
+                     .ToList();
+                _db_Work.addNhanVien(maCvMoi, dsThem);
+
+                MessageBox.Show("Thêm công việc thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.DialogResult = true;
+                this.Close();
             }
             catch (Exception ex)
             {

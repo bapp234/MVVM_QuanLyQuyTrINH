@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿        using Microsoft.EntityFrameworkCore;
 using MVVM_QuanLyQuyTrINH.Models.Account;
 using MVVM_QuanLyQuyTrINH.Models.Context;
 using MVVM_QuanLyQuyTrINH.Models.Project;
@@ -75,10 +75,14 @@ namespace MVVM_QuanLyQuyTrINH.Views.Pages
             if (!string.IsNullOrEmpty(searchText))
             {
                 viewList = viewList.Where(cv =>
-                    (cv.TenCv != null && cv.TenCv.ToLower().Contains(searchText)) ||
-                    (cv.MaDuAnNavigation != null && cv.MaDuAnNavigation.TenDuAn != null && cv.MaDuAnNavigation.TenDuAn.ToLower().Contains(searchText)) ||
-                    (cv.MaNvphuTrachNavigation != null && cv.MaNvphuTrachNavigation.MaNvNavigation != null && cv.MaNvphuTrachNavigation.MaNvNavigation.HoTen != null && cv.MaNvphuTrachNavigation.MaNvNavigation.HoTen.ToLower().Contains(searchText))
-                );
+             (cv.TenCv != null && cv.TenCv.ToLower().Contains(searchText)) ||
+             (cv.MaDuAnNavigation != null && cv.MaDuAnNavigation.TenDuAn != null && cv.MaDuAnNavigation.TenDuAn.ToLower().Contains(searchText)) ||
+             (cv.PhanCongs != null && cv.PhanCongs.Any(pc =>
+                 pc.MaNvNavigation != null &&
+                 pc.MaNvNavigation.MaNvNavigation != null && 
+                 pc.MaNvNavigation.MaNvNavigation.HoTen != null &&
+                 pc.MaNvNavigation.MaNvNavigation.HoTen.ToLower().Contains(searchText)))
+         );
             }
             if (cbFilterProject.SelectedValue != null)
             {

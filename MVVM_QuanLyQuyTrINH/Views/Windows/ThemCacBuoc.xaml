@@ -1,0 +1,95 @@
+﻿<Window x:Class="MVVM_QuanLyQuyTrINH.Views.Windows.ThemCacBuoc"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Thêm Bước Thực Hiện" Height="450" Width="500"
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+       >
+
+    <Border CornerRadius="12" BorderBrush="#3AA0AD" BorderThickness="1" Background="White" Margin="10">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="20" ShadowDepth="5" Opacity="0.25" Color="#2c3e50"/>
+        </Border.Effect>
+
+        <Grid Margin="25">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,20">
+                <TextBlock Text="🧩 THÊM BƯỚC MỚI" FontSize="20" FontWeight="Bold" 
+                           Foreground="#3AA0AD" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding ThuTu, StringFormat='Bước thứ: {0}'}" 
+                           FontSize="14" Foreground="#7f8c8d" 
+                           HorizontalAlignment="Center" Margin="0,5,0,0" FontStyle="Italic"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1">
+                <TextBlock Text="Tên bước (Giai đoạn) *" FontWeight="SemiBold" Foreground="#34495e" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtTenBuoc" Text="{Binding TenBuoc, UpdateSourceTrigger=PropertyChanged}" 
+                         Height="38" Padding="10,0" VerticalContentAlignment="Center" 
+                         BorderBrush="#bdc3c7" BorderThickness="1" Margin="0,0,0,15">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="4"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock  Text="Ngày bắt đầu" FontWeight="SemiBold" Foreground="#34495e" Margin="0,0,0,5"/>
+                        <DatePicker x:Name="dpNgayBatDau" SelectedDate="{Binding NgayBatDau}" Height="38" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Ngày kết thúc" FontWeight="SemiBold" Foreground="#34495e" Margin="0,0,0,5"/>
+                        <DatePicker x:Name="dpNgayKetThuc" SelectedDate="{Binding NgayKetThuc}" Height="38" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+
+                <TextBlock Text="Mô tả chi tiết:" FontWeight="SemiBold" Foreground="#34495e" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtMoTa" Text="{Binding Mota}" Height="80" TextWrapping="Wrap" AcceptsReturn="True" 
+                         Padding="10" VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+                         BorderBrush="#bdc3c7" BorderThickness="1">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="4"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,25,0,0">
+                <Button Content="Hủy bỏ" Width="90" Height="38" Background="#ecf0f1" Foreground="#7f8c8d" 
+                        BorderThickness="0" Margin="0,0,10,0" Cursor="Hand" Click="btnCancel_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Button Content="Lưu Bước" Width="110" Height="38" Background="#3AA0AD" Foreground="White" 
+                        FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="btnSave_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

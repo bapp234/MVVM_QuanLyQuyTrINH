@@ -6,7 +6,6 @@
         WindowStyle="None" AllowsTransparency="True" Background="Transparent">
 
     <Window.Resources>
-        <!-- 1. STYLE COMBOBOX ĐẸP (Copy từ trang danh sách sang để đồng bộ) -->
         <Style x:Key="ModernComboBoxStyle" TargetType="ComboBox">
             <Setter Property="Height" Value="35"/>
             <Setter Property="FontSize" Value="14"/>
@@ -142,7 +141,7 @@
                 <StackPanel>
 
                     <!-- Tên công việc -->
-                    <TextBlock Text="Tên công việc *" FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
+                    <TextBlock Text="Tên công việc" FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
                     <TextBox x:Name="txtTenCv" Margin="0,0,0,15"/>
 
                     <!-- Mô tả -->
@@ -158,17 +157,17 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="Ngày bắt đầu *" FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
+                            <TextBlock Text="Ngày bắt đầu" FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
                             <DatePicker x:Name="dpNgayGiao"/>
                         </StackPanel>
                         <StackPanel Grid.Column="2">
-                            <TextBlock Text="Hạn hoàn thành *" FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
+                            <TextBlock Text="Hạn hoàn thành" FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
                             <DatePicker x:Name="dpHanHoanThanh"/>
                         </StackPanel>
                     </Grid>
 
                     <!-- Dự án & Bước làm -->
-                    <TextBlock Text="Thuộc Dự án *" FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
+                    <TextBlock Text="Thuộc Dự án" FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
                     <ComboBox x:Name="cbDuAn" Style="{StaticResource ModernComboBoxStyle}" Margin="0,0,0,15"
                               DisplayMemberPath="TenDuAn" SelectedValuePath="MaDuAn"/>
 
@@ -176,10 +175,36 @@
                     <ComboBox x:Name="cbBuocLam" Style="{StaticResource ModernComboBoxStyle}" Margin="0,0,0,15"
                               DisplayMemberPath="TenBuoc" SelectedValuePath="MaBuoc" IsEnabled="False"/>
 
-                    <!-- Người phụ trách -->
-                    <TextBlock Text="Người phụ trách" FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
-                    <ComboBox x:Name="cbNhanVienPhuTrach" Style="{StaticResource ModernComboBoxStyle}" Margin="0,0,0,15"
-                              DisplayMemberPath="HoTen" SelectedValuePath="MaNv"/>
+                    <!-- Nhân viên tham gia -->
+                    <TextBlock Text="Nhân viên tham gia"
+           FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
+
+                    <Border BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="6" Background="White" Padding="8">
+                        <ScrollViewer Height="160">
+                            <ItemsControl x:Name="icNhanVien">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="0,2" Padding="5" CornerRadius="4" Background="White">
+                                            <Border.Effect>
+                                                <DropShadowEffect BlurRadius="4" ShadowDepth="0" Color="#00000020" Opacity="0.1"/>
+                                            </Border.Effect>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <!-- Checkbox -->
+                                                <CheckBox Content="{Binding HoTen}"
+                                      Tag="{Binding MaNv}"
+                                      Margin="5,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="14"
+                                      Cursor="Hand"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+
 
                     <!-- Độ ưu tiên & Trạng thái (Ẩn) -->
                     <Grid Margin="0,0,0,15">

@@ -1,4 +1,5 @@
-﻿using MVVM_QuanLyQuyTrINH.Models.Account;
+﻿using Microsoft.EntityFrameworkCore;
+using MVVM_QuanLyQuyTrINH.Models.Account;
 using MVVM_QuanLyQuyTrINH.Models.Context;
 using MVVM_QuanLyQuyTrINH.Models.Project;
 using System;
@@ -68,11 +69,15 @@ namespace MVVM_QuanLyQuyTrINH.Views.Pages
         private void LoadDuAnMoiNhat()
         {
             DanhSachDuAnMoiNhat = new ObservableCollection<DuAn>(
-                db.DuAns
-                  .OrderByDescending(d => d.NgayBatDau)
-                  .Take(5)
-                  .ToList()
-            );
+                    db.DuAns
+                    .Include(d => d.MaTruongNhomNavigation)
+                        .ThenInclude(ql => ql.MaQlNavigation) 
+                    .Include(d => d.QuyTrinhs)
+                    .Include(d => d.CongViecs) 
+                    .OrderByDescending(d => d.NgayBatDau)
+                    .Take(5)
+                    .ToList()
+                );
         }
     }
 }

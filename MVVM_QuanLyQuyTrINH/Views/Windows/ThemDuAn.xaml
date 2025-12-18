@@ -4,72 +4,407 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Thêm Dự Án Mới" Height="600" Width="600"
-        WindowStartupLocation="CenterScreen"
-        WindowStyle="None"
-        AllowsTransparency="True"
-        Background="Transparent">
+        Title="Thêm Dự Án Mới" Height="700" Width="800" 
+        ResizeMode="NoResize"
+        StateChanged="Window_StateChanged"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent">
 
-    <Border CornerRadius="10" BorderBrush="#3AA0AD" BorderThickness="2" Padding="20" Background="White">
-        <Grid>
+    <Window.Resources>
+        <!-- 1. STYLE COMBOBOX HIỆN ĐẠI (Copy để đồng bộ) -->
+        <Style x:Key="ModernComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#333"/>
+            <Setter Property="Padding" Value="10,0,30,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Khung bao ngoài -->
+                            <Border x:Name="Border" Grid.ColumnSpan="2" 
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="8">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#B0B0B0" BlurRadius="5" ShadowDepth="1" Opacity="0.1"/>
+                                </Border.Effect>
+                            </Border>
+
+                            <!-- Nội dung được chọn -->
+                            <ContentPresenter x:Name="ContentSite"
+                                              IsHitTestVisible="False"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              Margin="10,0,0,0"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"/>
+
+                            <!-- Nút mũi tên (Toggle Button ảo) -->
+                            <ToggleButton Grid.Column="0" Grid.ColumnSpan="2" 
+                                          Focusable="false"
+                                          IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                                          ClickMode="Press">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border Background="Transparent"/>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+
+                            <!-- Icon mũi tên -->
+                            <Path Grid.Column="1" Data="M0,0 L4,4 L8,0" Stroke="#888" StrokeThickness="1.5" 
+                                  HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"/>
+
+                            <!-- Danh sách xổ xuống -->
+                            <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" 
+                                   AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
+                                <Grid Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder" Background="White" BorderThickness="1" BorderBrush="#E0E0E0" CornerRadius="8" Margin="0,2,0,0">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="#B0B0B0" BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                                        </Border.Effect>
+                                        <ScrollViewer Margin="2" SnapsToDevicePixels="True">
+                                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                        </ScrollViewer>
+                                    </Border>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#3AA0AD"/>
+                                <Setter TargetName="Border" Property="Background" Value="#F9FAFB"/>
+                            </Trigger>
+                            <Trigger Property="IsDropDownOpen" Value="true">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#3AA0AD"/>
+                                <Setter TargetName="Border" Property="Background" Value="#F0F4F8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 2. STYLE TEXTBOX ĐẸP -->
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="border" CornerRadius="8" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#3AA0AD"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#3AA0AD"/>
+                                <Setter TargetName="border" Property="Background" Value="#F0F8FF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 3. STYLE DATEPICKER ĐẸP -->
+        <Style TargetType="DatePicker">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- 4. Style Nút Xóa nhỏ trong DataGrid -->
+        <Style x:Key="DeleteButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FFEBEE"/>
+            <Setter Property="Foreground" Value="#D32F2F"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="6" Padding="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FFCDD2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border CornerRadius="12" BorderBrush="#3AA0AD" BorderThickness="1" Background="White">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="20" Opacity="0.3" ShadowDepth="5"/>
+        </Border.Effect>
+
+        <Grid Margin="25">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <!-- Header -->
                 <RowDefinition Height="Auto"/>
+                <!-- Thông tin chung -->
+                <RowDefinition Height="*"/>
+                <!-- Danh sách bước -->
+                <RowDefinition Height="Auto"/>
+                <!-- Buttons -->
             </Grid.RowDefinitions>
 
-            <!-- ======= Tiêu đề ======= -->
-            <TextBlock Text="🧩 Thêm Dự Án Mới"
-                       FontSize="22"
-                       FontWeight="Bold"
-                       Foreground="#2C8A8A"
-                       HorizontalAlignment="Center"
-                       Margin="0,0,0,20"/>
+            <!-- 1. HEADER -->
+            <TextBlock Text="🧩 Thiết Lập Quy Trình Mới" FontSize="24" FontWeight="Bold" 
+                       Foreground="#3AA0AD" HorizontalAlignment="Center" Margin="0,0,0,25"/>
 
-            <!-- ======= Form nhập ======= -->
-            <StackPanel Grid.Row="1" Margin="0,10,0,10">
+            <!-- 2. THÔNG TIN CHUNG -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Tên dự án:" FontWeight="SemiBold"/>
-                <TextBox x:Name="txtTenDuAn" Height="30" Margin="0,5,0,10"/>
+                <!-- Cột Trái -->
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Tên dự án" FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
+                    <TextBox x:Name="txtTenDuAn" Margin="0,0,0,15"/>
 
-                <TextBlock Text="Mô tả:" FontWeight="SemiBold"/>
-                <TextBox x:Name="txtMoTa" Height="60" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,5,0,10"/>
+                    <TextBlock Text="Trưởng nhóm phụ trách" FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
+                    <!-- Áp dụng Style mới cho ComboBox -->
+                    <ComboBox x:Name="cbTruongNhom" Style="{StaticResource ModernComboBoxStyle}" 
+                              ItemsSource="{Binding ListNhanVien}"
+                              Margin="0,0,0,15"
+                              DisplayMemberPath="HoTen" 
+                              SelectedValuePath="MaNv"
+                              SelectedValue="{Binding DuAnMoi.MaTruongNhom, Mode=TwoWay}"/>
+                </StackPanel>
 
-                <TextBlock Text="Ngày bắt đầu:" FontWeight="SemiBold"/>
+                <!-- Cột Phải -->
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Thời gian dự kiến:" FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                        <DatePicker x:Name="dpBatDau" 
+                                    Language="vi-VN"
+                                    VerticalContentAlignment="Center"
+                                    ToolTip="Ngày bắt đầu"/>
+                            <TextBlock Text="dd/MM/yyyy"
+                                   IsHitTestVisible="False"
+                                   VerticalAlignment="Center"
+                                   Background="White"  
+           
+           Padding="5,0,0,0"
+           Margin="2,2,30,2"
+                                   Foreground="#888"
+                                   >
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=dpBatDau, Path=Text}" Value="">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                        <TextBlock Text="-" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#888"/>
+                        <Grid Grid.Column="2">
+                            <DatePicker x:Name="dpKetThuc" 
+                        Language="vi-VN"
+                        VerticalContentAlignment="Center"
+                        ToolTip="Ngày kết thúc"/>
 
-                <DatePicker x:Name="dpNgayBatDau" Height="30" Margin="0,5,0,10"/>
+                            <TextBlock Text="dd/MM/yyyy" 
+                       IsHitTestVisible="False" 
+                       VerticalAlignment="Center" 
+                       Background="White"  
+           
+           Padding="5,0,0,0"
+           Margin="2,2,30,2"
+                       Foreground="#888" 
+                       >
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=dpKetThuc, Path=Text}" Value="">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </Grid>
 
-                <TextBlock Text="Ngày kết thúc:" FontWeight="SemiBold"/>
-                <DatePicker x:Name="dpNgayKetThuc" Height="30" Margin="0,5,0,10"/>
+                    <TextBlock Text="Mô tả:" FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
+                    <TextBox x:Name="txtMoTa"/>
 
-                <TextBlock Text="Trưởng nhóm phụ trách:" FontWeight="SemiBold"/>
-                <ComboBox x:Name="cbTruongNhom" DisplayMemberPath="MaNvNavigation.HoTen" SelectedValuePath="MaNv" Height="30" Margin="0,5,0,10"/>
+                    <!-- ComboBox Trạng thái (Ẩn đi vì mặc định Mới tạo/Đang thực hiện) -->
+                    <ComboBox x:Name="cbTrangThai" Visibility="Collapsed" SelectedIndex="0">
+                        <ComboBoxItem Content="Đang thực hiện"/>
+                        <ComboBoxItem Content="Hoàn thành"/>
+                        <ComboBoxItem Content="Tạm dừng"/>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
 
-                <TextBlock Text="Trạng thái:" FontWeight="SemiBold"/>
-                <ComboBox x:Name="cbTrangThai" Height="30" Margin="0,5,0,10" SelectedIndex="0">
-                    <ComboBoxItem Content="Đang thực hiện"/>
-                    <ComboBoxItem Content="Hoàn thành"/>
-                    <ComboBoxItem Content="Tạm dừng"/>
-                </ComboBox>
-            </StackPanel>
+            <!-- 3. DANH SÁCH BƯỚC (STEPS) -->
+            <Grid Grid.Row="2" Margin="0,20,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <!-- ======= Nút hành động ======= -->
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="💾 Lưu"
-                        Width="100"
-                        Height="35"
-                        Background="SeaGreen"
-                        Foreground="White"
-                        FontWeight="Bold"
-                        Margin="0,0,10,0"
-                        Click="btnSave_Click"/>
-                <Button Content="✖ Hủy"
-                        Width="100"
-                        Height="35"
-                        Background="#E53935"
-                        Foreground="White"
-                        FontWeight="Bold"
-                        Click="btnCancel_Click"/>
+                <DockPanel Grid.Row="0" Margin="0,0,0,10">
+                    <TextBlock Text="Danh sách các bước thực hiện:" FontWeight="Bold" Foreground="#555" VerticalAlignment="Center" FontSize="16"/>
+                    <Button Content="+ Thêm Bước" Width="110" Height="32" HorizontalAlignment="Right"
+                            Background="#E3F2FD" Foreground="#1976D2" FontWeight="Bold" BorderThickness="0"
+                            Cursor="Hand" Click="btnAddStep_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="6"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </DockPanel>
+
+                <!-- DataGrid hiển thị các bước -->
+                <DataGrid x:Name="dgSteps" Grid.Row="1" AutoGenerateColumns="False" 
+                          CanUserAddRows="False" HeadersVisibility="Column"
+                          BorderBrush="#E0E0E0" BorderThickness="1" Background="White" RowHeight="40"
+                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F0F0F0">
+
+                    <DataGrid.Resources>
+                        <!-- Style cho Header của DataGrid -->
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#F9FAFB"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="Foreground" Value="#555"/>
+                            <Setter Property="Padding" Value="10,8"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+                        </Style>
+                        <!-- Style cho Cell -->
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Padding" Value="8,0"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                            <ContentPresenter VerticalAlignment="Center" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#E3F2FD"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.Resources>
+
+                    <DataGrid.Columns>
+                        <!-- STT -->
+                        <DataGridTextColumn Header="STT" Binding="{Binding ThuTu}" Width="50" IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="Foreground" Value="#3AA0AD"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <!-- Tên Bước -->
+                        <DataGridTextColumn Header="Tên bước" Binding="{Binding TenBuoc}" Width="*" />
+
+                        <!-- Mô tả -->
+                        <DataGridTextColumn Header="Mô tả bước" Binding="{Binding Mota}" Width="1.5*" />
+                        <DataGridTemplateColumn Header="Thời hạn" Width="160">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Background="Transparent" Padding="5,0">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Text="📅" Margin="0,0,5,0" FontSize="10" VerticalAlignment="Center" Opacity="0.6"/>
+
+                                            <TextBlock Text="{Binding NgayBatDau, StringFormat='dd/MM/yy'}" 
+                               Foreground="#555" FontSize="13"/>
+
+                                            <TextBlock Text=" ➝ " Foreground="#AAA" Margin="5,0" FontSize="10" VerticalAlignment="Center"/>
+
+                                            <TextBlock Text="{Binding NgayKetThuc, StringFormat='dd/MM/yy'}" 
+                               Foreground="#333" FontWeight="SemiBold" FontSize="13"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!-- Xóa -->
+                        <DataGridTemplateColumn Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="🗑" Style="{StaticResource DeleteButtonStyle}" 
+                                            Click="btnDeleteStep_Click" ToolTip="Xóa bước này"
+                                            Width="30" Height="30"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+
+            <!-- 4. BUTTONS -->
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                <Button Content="Hủy" Width="100" Height="40" Background="#F5F5F5" Foreground="#333" 
+                        BorderThickness="0" Margin="0,0,15,0" Cursor="Hand" Click="btnCancel_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Button Content="Lưu" Width="100" Height="40" Background="#3AA0AD" Foreground="White" 
+                        FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="btnSave_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                    <Button.Effect>
+                        <DropShadowEffect Color="#3AA0AD" BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
+                    </Button.Effect>
+                </Button>
             </StackPanel>
         </Grid>
     </Border>
