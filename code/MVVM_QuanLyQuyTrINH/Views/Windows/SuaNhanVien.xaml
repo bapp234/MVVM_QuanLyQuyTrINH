@@ -1,0 +1,89 @@
+﻿<Window x:Class="MVVM_QuanLyQuyTrINH.Views.CRUD.SuaNhanVien"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Chỉnh Sửa Nhân Viên" Height="650" Width="500"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+
+    <Border CornerRadius="10" BorderBrush="#3AA0AD" BorderThickness="2" Padding="25" Background="White">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="15" Opacity="0.2"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                <TextBlock Text="✏️ Chỉnh Sửa Thông Tin"
+                           FontSize="22" FontWeight="Bold" Foreground="#3AA0AD"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1">
+
+                <TextBlock Text="Mã người dùng:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtUserId" IsReadOnly="True" Background="#F5F5F5" Height="35" 
+                         Padding="5" VerticalContentAlignment="Center" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Họ và tên *" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtHoTen" Height="35" Padding="5" VerticalContentAlignment="Center" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Email *" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtEmail" Height="35" Padding="5" VerticalContentAlignment="Center" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Vai trò hệ thống:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <ComboBox x:Name="cbVaiTro" Height="35" Padding="10,0" 
+                          VerticalContentAlignment="Center" Margin="0,0,0,15"
+                          SelectionChanged="cbVaiTro_SelectionChanged">
+                    <ComboBoxItem Content="Nhân Viên" Tag="3"/>
+                    <ComboBoxItem Content="Quản Lý" Tag="2"/>
+                    <ComboBoxItem Content="Admin" Tag="1"/>
+                </ComboBox>
+
+                <StackPanel x:Name="spThongTinBoSung" Margin="0,0,0,15">
+                    <TextBlock x:Name="lblThongTinBoSung" Text="Thông tin bổ sung *" FontWeight="SemiBold" Foreground="#E65100" Margin="0,0,0,5"/>
+
+                    <TextBox x:Name="txtThongTinBoSung" Height="35" Padding="5" VerticalContentAlignment="Center"/>
+
+                    <ComboBox x:Name="cbCapQuanLy" Height="35" Padding="10,0" VerticalContentAlignment="Center" Visibility="Collapsed">
+                        <ComboBoxItem Content="Trưởng phòng"/>
+                        <ComboBoxItem Content="Phó phòng"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <TextBlock Text="Mật khẩu mới (Để trống nếu không đổi):" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <PasswordBox x:Name="PasswordBoxNew" Height="35" Padding="5" VerticalContentAlignment="Center" BorderBrush="Orange"/>
+
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                <Button Content="Hủy bỏ" Width="100" Height="40" Background="#EEEEEE" Foreground="Black"
+                        BorderThickness="0" Margin="0,0,10,0" Cursor="Hand"
+                        Click="btnClose_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Button Content="Lưu Thay Đổi" Width="140" Height="40" Background="#3AA0AD" Foreground="White"
+                        FontWeight="Bold" BorderThickness="0" Cursor="Hand"
+                        Click="btnSave_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

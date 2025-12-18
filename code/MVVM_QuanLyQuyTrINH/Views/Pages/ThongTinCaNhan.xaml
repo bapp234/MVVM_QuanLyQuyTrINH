@@ -1,0 +1,121 @@
+﻿<Page x:Class="MVVM_QuanLyQuyTrINH.Views.Pages.ThongTinCaNhan"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="900"
+      Title="UserInfoPage">
+
+    <Grid Background="White">
+        <Border Background="#FAFAFA"
+                BorderBrush="#3AA0AD"
+                BorderThickness="1"
+                CornerRadius="12"
+                Padding="40"
+                Margin="30">
+            <StackPanel>
+                <!-- Tiêu đề -->
+                <TextBlock Text="👤 Thông tin tài khoản"
+                           FontSize="26"
+                           FontWeight="Bold"
+                           Foreground="#3AA0AD"
+                           Margin="0,0,0,30"
+                           HorizontalAlignment="Center"/>
+
+                <!-- Lưới thông tin -->
+                <UniformGrid Columns="2" Rows="5" Margin="0,10,0,0" HorizontalAlignment="Stretch">
+
+                    <!-- Tên đăng nhập -->
+                    <TextBlock Text="Tên đăng nhập:"
+                               FontSize="18"
+                               VerticalAlignment="Center"
+                               Margin="0,10"/>
+                    <TextBox Text="{Binding TenDangNhap}"
+                             IsReadOnly="True"
+                             FontSize="18"
+                             Height="45"
+                             Padding="10,5"
+                             BorderBrush="#3AA0AD"
+                             BorderThickness="1"
+                             Background="White"
+                             Margin="0,10"/>
+
+                    <!-- Họ tên -->
+                    <TextBlock Text="Họ và tên:"
+                               FontSize="18"
+                               VerticalAlignment="Center"
+                               Margin="0,10"/>
+                    <TextBox Text="{Binding HoTen}"
+                             FontSize="18"
+                             Height="45"
+                             Padding="10,5"
+                             BorderBrush="#3AA0AD"
+                             BorderThickness="1"
+                             Background="White"
+                             Margin="0,10"/>
+
+                    <!-- Email -->
+                    <TextBlock Text="Email:"
+                               FontSize="18"
+                               VerticalAlignment="Center"
+                               Margin="0,10"/>
+                    <TextBox Text="{Binding Email}"
+                             FontSize="18"
+                             Height="45"
+                             Padding="10,5"
+                             BorderBrush="#3AA0AD"
+                             BorderThickness="1"
+                             Background="White"
+                             Margin="0,10"/>
+
+                    <!-- Vai trò -->
+                    <TextBlock Text="Vai trò:"
+                               FontSize="18"
+                               VerticalAlignment="Center"
+                               Margin="0,10"/>
+                    <TextBox Text="{Binding MaVaiTroNavigation.TenVaiTro}"
+                             IsReadOnly="True"
+                             FontSize="18"
+                             Height="45"
+                             Padding="10,5"
+                             BorderBrush="#3AA0AD"
+                             BorderThickness="1"
+                             Background="White"
+                             Margin="0,10"/>
+
+                    <!-- Mật khẩu -->
+                    <TextBlock Text="Mật khẩu:"
+                               FontSize="18"
+                               VerticalAlignment="Center"
+                               Margin="0,10"/>
+                    <PasswordBox Password="**********"
+                                 IsEnabled="False"
+                                 FontSize="18"
+                                 Height="45"
+                                 Padding="10,5"
+                                 BorderBrush="#3AA0AD"
+                                 BorderThickness="1"
+                                 Background="White"
+                                 Margin="0,10"/>
+                </UniformGrid>
+
+                <!-- Nút hành động -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,40,0,0">
+                    <Button Content="💾 Lưu thay đổi"
+                            Width="180"
+                            Height="50"
+                            Background="#3AA0AD"
+                            Foreground="White"
+                            FontWeight="Bold"
+                            FontSize="16"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Margin="0,0,10,0"
+                            Click="BtnLuu_Click"
+                            Effect="{DynamicResource ShadowDepth2}"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
