@@ -1,0 +1,70 @@
+﻿<Window x:Class="MVVM_QuanLyQuyTrINH.Views.Windows.ThemCongViec"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Thêm Công Việc Mới" Height="750" Width="500" WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
+    <Border CornerRadius="10" BorderBrush="#3AA0AD" BorderThickness="2" Padding="20" Background="White">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="📝 Thêm Công Việc Mới"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       Foreground="#2C8A8A"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,20"/>
+
+            <StackPanel Grid.Row="1" Margin="0,0,0,10">
+
+                <TextBlock Text="Tên công việc:" FontWeight="SemiBold"/>
+                <TextBox x:Name="txtTenCv" Height="30" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Mô tả:" FontWeight="SemiBold"/>
+                <TextBox x:Name="txtMoTa" Height="60" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Ngày giao:" FontWeight="SemiBold"/>
+                <DatePicker x:Name="dpNgayGiao" Height="30" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Hạn hoàn thành:" FontWeight="SemiBold"/>
+                <DatePicker x:Name="dpHanHoanThanh" Height="30" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Trạng thái:" FontWeight="SemiBold"/>
+                <ComboBox x:Name="cbTrangThai" Height="30" Margin="0,5,0,10">
+                    <ComboBoxItem Content="Chưa bắt đầu"/>
+                    <ComboBoxItem Content="Đang tiến hành"/>
+                    <ComboBoxItem Content="Hoàn thành"/>
+                    <ComboBoxItem Content="Tạm dừng"/>
+                </ComboBox>
+
+                <TextBlock Text="Dự án:" FontWeight="SemiBold"/>
+                <ComboBox x:Name="cbDuAn" DisplayMemberPath="TenDuAn" SelectedValuePath="MaDuAn" Height="30" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Bước làm (Quy trình):" FontWeight="SemiBold"/>
+                <ComboBox x:Name="cbBuocLam" DisplayMemberPath="TenBuoc" SelectedValuePath="MaBuoc" Height="30" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Nhân viên phụ trách:" FontWeight="SemiBold"/>
+                <ComboBox x:Name="cbNhanVienPhuTrach" DisplayMemberPath="HoTen" SelectedValuePath="MaNv" Height="30" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Độ ưu tiên:" FontWeight="SemiBold"/>
+                <ComboBox x:Name="cbDoUuTien" Height="30" Margin="0,5,0,10">
+                    <ComboBoxItem Content="Thấp"/>
+                    <ComboBoxItem Content="Trung bình"/>
+                    <ComboBoxItem Content="Cao"/>
+                    <ComboBoxItem Content="Khẩn cấp"/>
+                </ComboBox>
+
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="💾 Lưu" Width="100" Height="35" Background="SeaGreen" Foreground="White" FontWeight="Bold" Margin="0,0,10,0" Click="btnSave_Click"/>
+                <Button Content="✖ Hủy" Width="100" Height="35" Background="#E53935" Foreground="White" FontWeight="Bold" Click="btnCancel_Click"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

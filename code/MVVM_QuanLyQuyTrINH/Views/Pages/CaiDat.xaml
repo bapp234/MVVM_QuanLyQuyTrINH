@@ -1,0 +1,61 @@
+﻿<Page x:Class="MVVM_QuanLyQuyTrINH.Views.Pages.CaiDat"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1000"
+      Title="CaiDat">
+
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <!-- Menu trái -->
+            <ColumnDefinition Width="*"/>
+            <!-- Khung nội dung -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Menu trái -->
+        <Border Background="#E6F6F7" BorderBrush="#3AA0AD" BorderThickness="0,0,1,0">
+            <StackPanel VerticalAlignment="Top" Margin="0,40,0,0">
+                <TextBlock Text="⚙️ Cài đặt hệ thống"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#3AA0AD"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20"/>
+
+                <Button x:Name="btnThongTinCaNhan"
+                        Content="👤 Thông tin cá nhân"
+                        Height="45"
+                        Margin="20,5"
+                        Background="White"
+                        Foreground="#3AA0AD"
+                        FontWeight="Bold"
+                        BorderBrush="#3AA0AD"
+                        BorderThickness="1"
+                        Cursor="Hand"
+                        Click="btnThongTinCaNhan_Click"/>
+
+                <Button x:Name="btnDoiMatKhau"
+                        Content="🔑 Đổi mật khẩu"
+                        Height="45"
+                        Margin="20,5"
+                        Background="White"
+                        Foreground="#3AA0AD"
+                        FontWeight="Bold"
+                        BorderBrush="#3AA0AD"
+                        BorderThickness="1"
+                        Cursor="Hand"
+                        Click="btnDoiMatKhau_Click"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Khung nội dung bên phải -->
+        <Frame x:Name="MainFrame"
+               Grid.Column="1"
+               NavigationUIVisibility="Hidden"
+               Margin="20"
+               Background="White"/>
+    </Grid>
+</Page>

@@ -1,0 +1,163 @@
+﻿<Window x:Class="MVVM_QuanLyQuyTrINH.Views.Windows.SuaDuAn"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Sửa Dự Án"
+        Height="700"
+        Width="1000"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Tiêu đề -->
+        <TextBlock Text="CẬP NHẬT DỰ ÁN"
+                   FontSize="34"
+                   FontWeight="ExtraBold"
+                   Foreground="#2C8A8A"
+                   HorizontalAlignment="Left"
+                   Margin="0,0,0,25"/>
+
+        <!-- Nội dung chính -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="0">
+
+                <!-- Thông tin dự án -->
+                <Grid Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="2.5*"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="2.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Tên dự án:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" FontSize="16" FontWeight="SemiBold"/>
+                    <TextBox Text="{Binding TenDuAn}" Grid.Row="0" Grid.Column="1" FontSize="16" Margin="0,0,20,10" BorderBrush="#3AA0AD" BorderThickness="1"/>
+
+                    <TextBlock Text="Ngày bắt đầu:" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" FontSize="16" FontWeight="SemiBold"/>
+                    <DatePicker SelectedDate="{Binding NgayBatDau}" Grid.Row="0" Grid.Column="3" FontSize="16" Margin="0,0,0,10" BorderBrush="#3AA0AD" BorderThickness="1"/>
+
+                    <TextBlock Text="Mã dự án:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" FontSize="16" FontWeight="SemiBold"/>
+                    <TextBox Text="{Binding MaDuAn}" Grid.Row="1" Grid.Column="1" FontSize="16" Margin="0,0,20,10" BorderBrush="#3AA0AD" BorderThickness="1"/>
+
+                    <TextBlock Text="Ngày kết thúc:" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" FontSize="16" FontWeight="SemiBold"/>
+                    <DatePicker SelectedDate="{Binding NgayKetThuc}" Grid.Row="1" Grid.Column="3" FontSize="16" Margin="0,0,0,10" BorderBrush="#3AA0AD" BorderThickness="1"/>
+
+                    <TextBlock Text="Trạng thái:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" FontSize="16" FontWeight="SemiBold"/>
+                    <ComboBox ItemsSource="{Binding TrangThaiOptions}" SelectedItem="{Binding TrangThai}" Grid.Row="2" Grid.Column="1" 
+                              FontSize="16" Width="200" HorizontalAlignment="Left" BorderBrush="#3AA0AD" BorderThickness="1"/>
+                </Grid>
+
+                <Separator Margin="0,5,0,20" Background="#3AA0AD" Height="1"/>
+
+                <!-- Danh sách các bước -->
+                <TextBlock Text="DANH SÁCH CÁC BƯỚC"
+                           FontSize="28"
+                           FontWeight="SemiBold"
+                           Foreground="#2C8A8A"
+                           Margin="0,0,0,15"/>
+
+                <ItemsControl ItemsSource="{Binding DanhSachBuoc}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="1" 
+                                    BorderBrush="#3AA0AD"
+                                    Background="#F7FFFF"
+                                    Margin="0,0,0,10">
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="40"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding ThuTu, StringFormat='BƯỚC {0}'}" 
+                                                   FontSize="18"
+                                                   FontWeight="Bold"
+                                                   Foreground="#2C8A8A"
+                                                   Margin="0,0,0,5"/>
+
+                                        <TextBlock Text="Tên Bước:" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,2"/>
+                                        <TextBox Text="{Binding TenBuoc}" FontSize="16" Margin="0,0,0,5" BorderBrush="#3AA0AD" BorderThickness="1"/>
+
+                                        <TextBlock Text="Mô tả:" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,2"/>
+                                        <TextBox Text="{Binding Mota}" FontSize="16" TextWrapping="Wrap" Height="60" BorderBrush="#3AA0AD" BorderThickness="1" Margin="0,0,0,5"/>
+
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                            <TextBlock Text="Trạng thái:" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Width="100"/>
+                                            <ComboBox ItemsSource="{Binding TrangThaiOptions}" SelectedItem="{Binding TrangThai}" 
+                                                      FontSize="16" Width="180" BorderBrush="#3AA0AD" BorderThickness="1" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <Button Content="✕"
+                                            Grid.Column="1"
+                                            Width="30"
+                                            Height="30"
+                                            Background="Red"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            FontWeight="Bold" 
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Command="{Binding DataContext.XoaBuocCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Nút thêm bước -->
+                <Button Content="✚ THÊM BƯỚC MỚI"
+                        Width="200"
+                        Height="45"
+                        FontSize="16"
+                        FontWeight="SemiBold"
+                        Background="#2C8A8A"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Command="{Binding ThemBuocCommand}"
+                        HorizontalAlignment="Left"
+                        Margin="0,15,0,25"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Nút Lưu & Đóng -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="💾 LƯU"
+                    Width="150"
+                    Height="45"
+                    Background="#3AA0AD"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    FontSize="16"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    Command="{Binding LuuCommand}"/>
+
+            <Button Content="ĐÓNG"
+                    Width="150"
+                    Height="45"
+                    Background="Gray"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    FontSize="16"
+                    BorderThickness="0"
+                    Margin="20,0,0,0"
+                    Cursor="Hand"
+                    Command="{Binding DongCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>
